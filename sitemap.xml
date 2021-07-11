@@ -51,14 +51,14 @@
   </url>
   
   <url>
-    <loc>https://blog.xecades.xyz/articles/test/</loc>
+    <loc>https://blog.xecades.xyz/articles/update/</loc>
     
     <lastmod>2021-07-07</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.xecades.xyz/articles/update/</loc>
+    <loc>https://blog.xecades.xyz/articles/test/</loc>
     
     <lastmod>2021-07-07</lastmod>
     
@@ -102,7 +102,7 @@
   </url>
   
   <url>
-    <loc>https://blog.xecades.xyz/tags/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</loc>
+    <loc>https://blog.xecades.xyz/tags/%E7%AB%99%E7%82%B9/</loc>
     <lastmod>2021-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -116,7 +116,7 @@
   </url>
   
   <url>
-    <loc>https://blog.xecades.xyz/tags/%E7%AB%99%E7%82%B9/</loc>
+    <loc>https://blog.xecades.xyz/tags/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</loc>
     <lastmod>2021-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
