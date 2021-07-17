@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.xecades.xyz//articles/begin/</loc>
+    <lastmod>2021-07-11</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.xecades.xyz/drafts/update.html</loc>
+    <lastmod>2021-07-11</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.xecades.xyz/drafts/snippets.html</loc>
+    <lastmod>2021-07-11</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.xecades.xyz/drafts/2020-2021.html</loc>
+    <lastmod>2021-07-11</lastmod>
+  </url>
+  <url>
     <loc>https://blog.xecades.xyz/drafts/minecraft.html</loc>
     <lastmod>2021-07-07</lastmod>
   </url>
@@ -9,19 +25,7 @@
     <lastmod>2021-07-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.xecades.xyz//articles/update/</loc>
-    <lastmod>2021-07-07</lastmod>
-  </url>
-  <url>
     <loc>https://blog.xecades.xyz//articles/test/</loc>
-    <lastmod>2021-07-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.xecades.xyz//articles/snippets/</loc>
-    <lastmod>2021-07-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.xecades.xyz//articles/2020-2021/</loc>
     <lastmod>2021-07-07</lastmod>
   </url>
 </urlset> 
