@@ -6,7 +6,7 @@
   <link href="https://p3ddd.github.io/atom.xml" rel="self"/>
   
   <link href="https://p3ddd.github.io/"/>
-  <updated>2022-04-05T05:42:36.957Z</updated>
+  <updated>2022-04-19T08:38:40.820Z</updated>
   <id>https://p3ddd.github.io/</id>
   
   <author>
@@ -17,15 +17,49 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>修改 npm 缓存目录</title>
-    <link href="https://p3ddd.github.io/articles/npm-config/"/>
-    <id>https://p3ddd.github.io/articles/npm-config/</id>
-    <published>2022-03-31T03:21:59.000Z</published>
-    <updated>2022-04-05T05:42:36.957Z</updated>
+    <title>使用 Drone 自动部署 Go 应用</title>
+    <link href="https://p3ddd.github.io/articles/drone-gitea-golang/"/>
+    <id>https://p3ddd.github.io/articles/drone-gitea-golang/</id>
+    <published>2022-04-08T07:16:18.000Z</published>
+    <updated>2022-04-19T08:38:40.820Z</updated>
     
     
     <summary type="html">&lt;!-- placeholder --&gt;
-&lt;p&gt;npm 缓存默认在 C 盘，这会占用 C 盘大量空间，咱们把它改为其他目录。&lt;/p&gt;</summary>
+&lt;p&gt;本文将记录如何使用 Drone 自动部署 Go 应用。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="计算机" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+    
+    <category term="编程语言" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+    
+    <category term="Go" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Go/"/>
+    
+    <category term="DevOps" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/DevOps/"/>
+    
+    
+    <category term="Go" scheme="https://p3ddd.github.io/tags/Go/"/>
+    
+    <category term="DevOps" scheme="https://p3ddd.github.io/tags/DevOps/"/>
+    
+    <category term="CI/CD" scheme="https://p3ddd.github.io/tags/CI-CD/"/>
+    
+    <category term="Drone CI" scheme="https://p3ddd.github.io/tags/Drone-CI/"/>
+    
+    <category term="Gitea" scheme="https://p3ddd.github.io/tags/Gitea/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>npm 与 yarn 更改默认目录并换源</title>
+    <link href="https://p3ddd.github.io/articles/node-config/"/>
+    <id>https://p3ddd.github.io/articles/node-config/</id>
+    <published>2022-03-31T03:21:59.000Z</published>
+    <updated>2022-04-11T13:33:13.349Z</updated>
+    
+    
+    <summary type="html">&lt;!-- placeholder --&gt;
+&lt;p&gt;npm 与 yarn 配置。&lt;/p&gt;</summary>
     
     
     
