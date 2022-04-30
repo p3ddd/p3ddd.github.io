@@ -6,7 +6,7 @@
   <link href="https://p3ddd.github.io/atom.xml" rel="self"/>
   
   <link href="https://p3ddd.github.io/"/>
-  <updated>2022-04-19T08:38:40.820Z</updated>
+  <updated>2022-04-30T14:21:59.369Z</updated>
   <id>https://p3ddd.github.io/</id>
   
   <author>
@@ -17,11 +17,53 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>『合集』Ubuntu 常用软件安装（持续更新中。。。）</title>
+    <link href="https://p3ddd.github.io/articles/linux-prepare/"/>
+    <id>https://p3ddd.github.io/articles/linux-prepare/</id>
+    <published>2022-04-30T08:59:02.000Z</published>
+    <updated>2022-04-30T14:21:59.369Z</updated>
+    
+    
+    <summary type="html">&lt;!-- placeholder --&gt;
+&lt;p&gt;我的腾讯云服务器&lt;strong&gt;不小心&lt;/strong&gt;被我换了 IP，加上之前用的是宝塔面板，现在不想用了，所以重装了系统，这次装的是 Ubuntu20.04 的 Docker 基础镜像，自带 Docker，腾讯云控制台也有对应的容器控制面板，很方便。这里记录一下服务器上各种常用软件的安装方法与过程。持续更新中。。。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="计算机" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+    
+    <category term="Linux" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Linux/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用 shell 脚本</title>
+    <link href="https://p3ddd.github.io/articles/shell-scripts/"/>
+    <id>https://p3ddd.github.io/articles/shell-scripts/</id>
+    <published>2022-04-19T07:55:42.000Z</published>
+    <updated>2022-04-19T13:20:22.324Z</updated>
+    
+    
+    <summary type="html">&lt;!-- placeholder --&gt;
+&lt;p&gt;记录常用 shell 脚本。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="计算机" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+    
+    <category term="Linux" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Linux/"/>
+    
+    <category term="shell" scheme="https://p3ddd.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Linux/shell/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>使用 Drone 自动部署 Go 应用</title>
     <link href="https://p3ddd.github.io/articles/drone-gitea-golang/"/>
     <id>https://p3ddd.github.io/articles/drone-gitea-golang/</id>
     <published>2022-04-08T07:16:18.000Z</published>
-    <updated>2022-04-19T08:38:40.820Z</updated>
+    <updated>2022-04-27T08:57:38.714Z</updated>
     
     
     <summary type="html">&lt;!-- placeholder --&gt;
@@ -55,7 +97,7 @@
     <link href="https://p3ddd.github.io/articles/node-config/"/>
     <id>https://p3ddd.github.io/articles/node-config/</id>
     <published>2022-03-31T03:21:59.000Z</published>
-    <updated>2022-04-11T13:33:13.349Z</updated>
+    <updated>2022-04-27T08:57:20.328Z</updated>
     
     
     <summary type="html">&lt;!-- placeholder --&gt;
@@ -246,8 +288,8 @@
     <title>test - 内容模板</title>
     <link href="https://p3ddd.github.io/articles/test/"/>
     <id>https://p3ddd.github.io/articles/test/</id>
-    <published>1969-12-31T16:00:00.000Z</published>
-    <updated>2021-12-12T10:12:47.890Z</updated>
+    <published>1970-01-01T00:00:00.000Z</published>
+    <updated>2022-04-26T07:41:59.024Z</updated>
     
     
     <summary type="html">&lt;p&gt;My Awesome Test!&lt;/p&gt;

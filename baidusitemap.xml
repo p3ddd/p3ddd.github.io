@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://p3ddd.github.io//articles/linux-prepare/</loc>
+    <lastmod>2022-04-30</lastmod>
+  </url>
+  <url>
     <loc>https://p3ddd.github.io//articles/drone-gitea-golang/</loc>
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-04-27</lastmod>
   </url>
   <url>
     <loc>https://p3ddd.github.io//articles/node-config/</loc>
-    <lastmod>2022-04-11</lastmod>
+    <lastmod>2022-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/test/</loc>
+    <lastmod>2022-04-26</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/shell-scripts/</loc>
+    <lastmod>2022-04-19</lastmod>
   </url>
   <url>
     <loc>https://p3ddd.github.io//articles/WinWallpaperSaver/</loc>
@@ -31,9 +43,5 @@
   <url>
     <loc>https://p3ddd.github.io//articles/reg/</loc>
     <lastmod>2021-12-25</lastmod>
-  </url>
-  <url>
-    <loc>https://p3ddd.github.io//articles/test/</loc>
-    <lastmod>2021-12-12</lastmod>
   </url>
 </urlset> 
