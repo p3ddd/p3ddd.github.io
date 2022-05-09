@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://p3ddd.github.io//articles/linux-prepare/</loc>
-    <lastmod>2022-05-01</lastmod>
+    <lastmod>2022-05-07</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/drone-gitea-golang/</loc>
+    <lastmod>2022-05-07</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/http-content-type/</loc>
+    <lastmod>2022-05-06</lastmod>
   </url>
   <url>
     <loc>https://p3ddd.github.io//articles/shell-scripts/</loc>
     <lastmod>2022-04-30</lastmod>
-  </url>
-  <url>
-    <loc>https://p3ddd.github.io//articles/drone-gitea-golang/</loc>
-    <lastmod>2022-04-27</lastmod>
   </url>
   <url>
     <loc>https://p3ddd.github.io//articles/node-config/</loc>
