@@ -2,7 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://p3ddd.github.io//articles/linux-prepare/</loc>
-    <lastmod>2022-05-07</lastmod>
+    <lastmod>2022-05-12</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/http-request-process/</loc>
+    <lastmod>2022-05-09</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/webp-bat/</loc>
+    <lastmod>2022-05-09</lastmod>
+  </url>
+  <url>
+    <loc>https://p3ddd.github.io//articles/go/</loc>
+    <lastmod>2022-05-09</lastmod>
   </url>
   <url>
     <loc>https://p3ddd.github.io//articles/drone-gitea-golang/</loc>
@@ -29,15 +41,7 @@
     <lastmod>2022-04-05</lastmod>
   </url>
   <url>
-    <loc>https://p3ddd.github.io//articles/go/</loc>
-    <lastmod>2022-03-31</lastmod>
-  </url>
-  <url>
     <loc>https://p3ddd.github.io//articles/go-const-inline/</loc>
-    <lastmod>2022-02-06</lastmod>
-  </url>
-  <url>
-    <loc>https://p3ddd.github.io//articles/webp-bat/</loc>
     <lastmod>2022-02-06</lastmod>
   </url>
   <url>
