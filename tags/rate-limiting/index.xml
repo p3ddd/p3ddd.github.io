@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Rate Limiting on 的啊达</title>
+        <link>https://petrichor.net.cn/tags/rate-limiting/</link>
+        <description>Recent content in Rate Limiting on 的啊达</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sat, 05 Feb 2022 09:12:20 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/rate-limiting/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>限流算法</title>
+        <link>https://petrichor.net.cn/p/rate-limiting/</link>
+        <pubDate>Sat, 05 Feb 2022 09:12:20 +0800</pubDate>
+        
+        <guid>https://petrichor.net.cn/p/rate-limiting/</guid>
+        <description>&lt;p&gt;限流是高并发服务中非常有效和常用的解决方案，用来限制请求速率，避免服务过载。&lt;/p&gt;
+&lt;p&gt;常见的限流算法有很多种，如固定时间窗口、滑动时间窗口、漏桶、令牌桶等。&lt;/p&gt;
+&lt;h2 id=&#34;固定时间窗口算法&#34;&gt;固定时间窗口算法&lt;/h2&gt;
+&lt;p&gt;这是一种比较简单的限流算法，一定时间内，对请求进行&lt;strong&gt;计数&lt;/strong&gt;，达到&lt;strong&gt;阈值&lt;/strong&gt;则暂不接受请求，时间到达临界值则&lt;strong&gt;重新计数&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;比如我们要限制一分钟接受请求 60 次，从第一次收到请求起开始计时，在接下来的一分钟内，每收到一个请求计数就 +1 ，超过限制的 60 次后就开始拒绝请求，直到一分钟计时结束，重新开始计数。&lt;/p&gt;
+&lt;p&gt;这种算法优点是&lt;strong&gt;简单&lt;/strong&gt;，缺点也很明显，我们没办法控制接收到的请求是&lt;strong&gt;按时间均匀分布&lt;/strong&gt;的。&lt;/p&gt;
+&lt;p&gt;如果第一分钟的前半分钟只收到了 10 次请求，后半分钟收到了 50 次；第二分钟反过来，前半分钟收到了 50 次，后半分钟收到了 10 次。很明显，中间的两个半分钟（也就是一分钟）内一共收到了 100 次请求，超出了限制，这不是我们想要的。&lt;/p&gt;
+&lt;p&gt;还有一种情况，前十秒我们收到的请求数达到了最大数，后面五十秒的请求就只能全部拒绝，这种现象也叫**“突刺现象”**。&lt;/p&gt;
+&lt;p&gt;{% note info 突刺现象 %}&lt;/p&gt;
+&lt;p&gt;指在&lt;strong&gt;一定时间内的一小段时间内就用完了所有资源，后面大部分时间中无资源可用&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;{% endnote %}&lt;/p&gt;
+&lt;h2 id=&#34;滑动时间窗口算法sliding-window&#34;&gt;滑动时间窗口算法(Sliding Window)&lt;/h2&gt;
+&lt;p&gt;针对固定时间算法会在临界点存在瞬间大流量冲击的场景，滑动时间窗口计数器算法应运而生。&lt;/p&gt;
+&lt;p&gt;学过计算机网络的同学，应该都记得滑动时间窗口协议。这个协议是 TCP 协议的一种应用，用于网络数据传输时的流量控制，以避免拥塞的发生。这里的滑动时间窗口算法原理类似，只是应用场景不同。&lt;/p&gt;
+&lt;p&gt;它将时间窗口划分为更小的时间片段，每过一个时间片段，我们的时间窗口就会往右滑动一格，每个时间片段都有独立的计数器。我们在计算整个时间窗口内的请求总数时会累加所有的时间片段内的计数器。时间窗口划分的越细，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。&lt;/p&gt;
+&lt;h2 id=&#34;漏桶算法leaky-bucket&#34;&gt;漏桶算法(Leaky Bucket)&lt;/h2&gt;
+&lt;p&gt;漏桶算法控制输出速率而不管输入数据的突发性，当输入空闲的时候，该算法不执行任何动作。&lt;/p&gt;
+&lt;p&gt;就像一个漏水的桶，系统收到的请求就是流入桶里的水，处理请求就是让水从下面流出来，在这里输出的速率是恒定的。漏桶算法通过控制流量输出速率，平滑网络上的突发流量，实现流量整形，以保证网络服务的稳定。&lt;/p&gt;
+&lt;h2 id=&#34;令牌桶算法token-bucket&#34;&gt;令牌桶算法(Token Bucket)&lt;/h2&gt;
+&lt;p&gt;系统以一定的速度向令牌桶中放置令牌，当接收到请求时，向令牌桶中申请令牌，如果能够申请到，请求正常进行，反之不响应请求。典型情况下，令牌桶算法用来控制发送到网络上的数据的数目，并允许突发数据的发送。&lt;/p&gt;
+&lt;p&gt;其实 golang 标准库中就有限流算法的实现，即 &lt;code&gt;golang.org/x/time/rate&lt;/code&gt; 库，该限流器就是基于令牌桶实现的。&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://baike.baidu.com/item/%e6%bc%8f%e6%a1%b6%e7%ae%97%e6%b3%95/8455361&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;漏桶算法 | 百度百科&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://baike.baidu.com/item/%e4%bb%a4%e7%89%8c%e6%a1%b6%e7%ae%97%e6%b3%95&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;令牌桶算法 | 百度百科&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

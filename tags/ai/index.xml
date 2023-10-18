@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>AI on 的啊达</title>
+        <link>https://petrichor.net.cn/tags/ai/</link>
+        <description>Recent content in AI on 的啊达</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sun, 20 Aug 2023 12:08:49 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/ai/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>在笔记本上跑一下大模型</title>
+        <link>https://petrichor.net.cn/p/chinese-llama-alpaca-2/</link>
+        <pubDate>Sun, 20 Aug 2023 12:08:49 +0800</pubDate>
+        
+        <guid>https://petrichor.net.cn/p/chinese-llama-alpaca-2/</guid>
+        <description>&lt;p&gt;我的笔记本：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OS: Windows 11 家庭中文版 22H2&lt;/li&gt;
+&lt;li&gt;CPU: Intel(R) Core(TM) i5-1035G7 CPU @ 1.20GHz   1.50 GHz&lt;/li&gt;
+&lt;li&gt;GPU: MX250&lt;/li&gt;
+&lt;li&gt;RAM: 16.0 GB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;LLaMA(Large Language Model Meta AI) 是 Meta 发布的大语言模型。2023年7月，Meta 公司发布了人工智能模型 LLaMA-2 的开源商用版本，意味着大模型应用进入了“免费时代”，初创公司也能够以低廉的价格来创建类似 ChatGPT 这样的聊天机器人。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;LLaMA-Alpaca-2 &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; 基于 Meta 发布的可商用大模型 Llama-2 开发，是中文 LLaMA &amp;amp; Alpaca 大模型的第二期项目，开源了中文 LLaMA-2 基座模型和 Alpaca-2 指令精调大模型。&lt;/p&gt;
+&lt;p&gt;这些模型在原版 Llama-2 的基础上扩充并优化了中文词表，使用了大规模中文数据进行增量预训练，进一步提升了中文基础语义和指令理解能力，相比一代相关模型获得了显著性能提升。&lt;/p&gt;
+&lt;p&gt;本文选择了最小的 7B 版本。&lt;/p&gt;
+&lt;h2 id=&#34;下载模型&#34;&gt;下载模型&lt;/h2&gt;
+&lt;p&gt;到项目的 Github 仓库上找到 &lt;a class=&#34;link&#34; href=&#34;https://github.com/ymcui/Chinese-LLaMA-Alpaca-2#%e5%ae%8c%e6%95%b4%e6%a8%a1%e5%9e%8b%e4%b8%8b%e8%bd%bd&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;完整模型下载链接&lt;/a&gt;，选择合适的模型。&lt;/p&gt;
+&lt;p&gt;我这里选择的是 Chinese-Alpaca-2-7B 指令模型，模型大小 12.9 GB，适用场景为指令理解：问答、写作、聊天、交互等。&lt;/p&gt;
+&lt;h2 id=&#34;部署&#34;&gt;部署&lt;/h2&gt;
+&lt;h3 id=&#34;llamacpp-llamacpp&#34;&gt;llama.cpp &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;p&gt;Github 上的介绍如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The main goal of llama.cpp is to run the LLaMA model using 4-bit integer quantization on a MacBook&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 Windows 上编译需要使用 CMake，第一次编译失败了，这里我们可以直接下载 &lt;a class=&#34;link&#34; href=&#34;https://github.com/ggerganov/llama.cpp/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Release&lt;/a&gt;。&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;使用 llama.cpp 对模型进行量化 &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，量化之后模型大小为 3.68G，精度降低但是内存要求小了很多。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python3 convert.py --outtype f16 &amp;lt;你的hf模型目录&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 生成一个 ggml 格式的 bin 文件
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;quantize.exe &amp;lt;需要使用的f16/f32模型地址&amp;gt; &amp;lt;生成的q4模型地址&amp;gt; q4_0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用 llama.cpp 加载模型：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 基本运行
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;main -m &amp;lt;q4模型bin文件路径&amp;gt; -p 你的prompt
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 交互问答
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;main -m &amp;lt;q4模型bin文件路径&amp;gt; -ins
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;到这里已经能正常使用了，接下来介绍另一个工具。&lt;/p&gt;
+&lt;h3 id=&#34;text-generation-webui&#34;&gt;text-generation-webui&lt;/h3&gt;
+&lt;p&gt;text-generation-webui &lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; 是一个可以运行各种大模型的网页版部署工具。&lt;/p&gt;
+&lt;p&gt;在打开的网页中，依次选择 &lt;code&gt;Chat setting&lt;/code&gt; -&amp;gt; &lt;code&gt;Instruction template&lt;/code&gt;，在 &lt;code&gt;Instruction template&lt;/code&gt; 中下拉选择 &lt;code&gt;Llama-v2&lt;/code&gt;，并将 Context 输入框中的 &lt;code&gt;Answer the questions.&lt;/code&gt; 提示语替换为 &lt;code&gt;You are a helpful assistant. 你是一个乐于助人的助手。&lt;/code&gt;，最后回到 Text generation 界面，在 &lt;code&gt;input&lt;/code&gt; 输入框中输入你的指令，即可与 chinese-alpaca-2 对话了。&lt;/p&gt;
+&lt;h2 id=&#34;最后&#34;&gt;最后&lt;/h2&gt;
+&lt;p&gt;一开始没有进行量化就跑了一下，风扇瞬间响起来了，紧接着鼠标开始变卡了，我当时是开着任务管理器的，切出来一看内存已经满了，应该是爆内存了。赶紧 Ctrl+C 把项目停下来，内存占用又下来了。&lt;/p&gt;
+&lt;p&gt;打开我的电脑一看，C 盘就这一会儿的功夫已经少了十几个 G，变成了刺眼的红色，还好在重启之后又恢复了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://baike.baidu.com/item/LLaMA/62812215&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://baike.baidu.com/item/LLaMA/62812215&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/ymcui/Chinese-LLaMA-Alpaca-2&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/ymcui/Chinese-LLaMA-Alpaca-2&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/ggerganov/llama.cpp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/ggerganov/llama.cpp&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/634120727&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/634120727&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/oobabooga/text-generation-webui&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/oobabooga/text-generation-webui&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=''>
+<title>HTTP 中的 Content-Type</title>
+
+<link rel='canonical' href='https://petrichor.net.cn/p/http-content-type/'>
+
+<link rel="stylesheet" href="/scss/style.min.76274d13e4a672e562b6f1f60b2aaad6fa1292c307ce28e0aa2e3e3d6d9d2618.css"><meta property='og:title' content='HTTP 中的 Content-Type'>
+<meta property='og:description' content=''>
+<meta property='og:url' content='https://petrichor.net.cn/p/http-content-type/'>
+<meta property='og:site_name' content='的啊达'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='对照表' /><meta property='article:published_time' content='2022-05-06T20:15:31&#43;08:00'/><meta property='article:modified_time' content='2022-05-06T20:15:31&#43;08:00'/>
+<meta name="twitter:title" content="HTTP 中的 Content-Type">
+<meta name="twitter:description" content="">
+    <link rel="shortcut icon" href="/dwd.svg" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu9462b85ad07859eff2cf1bad472a7853_60669_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">的啊达</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/p3ddd'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:dong.wenda@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+  <path d="M3 7l9 6l9 -6" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/tags/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+                
+                <span>Tags</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#http-content-type-对照表">HTTP content-type 对照表</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/http-content-type/">HTTP 中的 Content-Type</a>
+        </h2>
+
+        
+
+        
+    </div>
+
+    
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+            <time class="article-time--published">May 06, 2022</time>
+        </div>
+        
+
+        
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--reading">
+                阅读时长: 2 分钟
+            </time>
+        </div>
+        
+
+        
+
+        
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+            
+            <a href="/tags/%E5%AF%B9%E7%85%A7%E8%A1%A8/" >
+                #对照表
+            </a>
+            
+        </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="http-content-type-对照表">HTTP content-type 对照表</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:left">文件扩展名</th>
+<th style="text-align:left">Content-Type(Mime-Type)</th>
+<th style="text-align:left">文件扩展名</th>
+<th style="text-align:left">Content-Type(Mime-Type)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">.*（ 二进制流，不知道下载文件类型）</td>
+<td style="text-align:left">application/octet-stream</td>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">image/tiff</td>
+</tr>
+<tr>
+<td style="text-align:left">.001</td>
+<td style="text-align:left">application/x-001</td>
+<td style="text-align:left">.301</td>
+<td style="text-align:left">application/x-301</td>
+</tr>
+<tr>
+<td style="text-align:left">.323</td>
+<td style="text-align:left">text/h323</td>
+<td style="text-align:left">.906</td>
+<td style="text-align:left">application/x-906</td>
+</tr>
+<tr>
+<td style="text-align:left">.907</td>
+<td style="text-align:left">drawing/907</td>
+<td style="text-align:left">.a11</td>
+<td style="text-align:left">application/x-a11</td>
+</tr>
+<tr>
+<td style="text-align:left">.acp</td>
+<td style="text-align:left">audio/x-mei-aac</td>
+<td style="text-align:left">.ai</td>
+<td style="text-align:left">application/postscript</td>
+</tr>
+<tr>
+<td style="text-align:left">.aif</td>
+<td style="text-align:left">audio/aiff</td>
+<td style="text-align:left">.aifc</td>
+<td style="text-align:left">audio/aiff</td>
+</tr>
+<tr>
+<td style="text-align:left">.aiff</td>
+<td style="text-align:left">audio/aiff</td>
+<td style="text-align:left">.anv</td>
+<td style="text-align:left">application/x-anv</td>
+</tr>
+<tr>
+<td style="text-align:left">.asa</td>
+<td style="text-align:left">text/asa</td>
+<td style="text-align:left">.asf</td>
+<td style="text-align:left">video/x-ms-asf</td>
+</tr>
+<tr>
+<td style="text-align:left">.asp</td>
+<td style="text-align:left">text/asp</td>
+<td style="text-align:left">.asx</td>
+<td style="text-align:left">video/x-ms-asf</td>
+</tr>
+<tr>
+<td style="text-align:left">.au</td>
+<td style="text-align:left">audio/basic</td>
+<td style="text-align:left">.avi</td>
+<td style="text-align:left">video/avi</td>
+</tr>
+<tr>
+<td style="text-align:left">.awf</td>
+<td style="text-align:left">application/vnd.adobe.workflow</td>
+<td style="text-align:left">.biz</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.bmp</td>
+<td style="text-align:left">application/x-bmp</td>
+<td style="text-align:left">.bot</td>
+<td style="text-align:left">application/x-bot</td>
+</tr>
+<tr>
+<td style="text-align:left">.c4t</td>
+<td style="text-align:left">application/x-c4t</td>
+<td style="text-align:left">.c90</td>
+<td style="text-align:left">application/x-c90</td>
+</tr>
+<tr>
+<td style="text-align:left">.cal</td>
+<td style="text-align:left">application/x-cals</td>
+<td style="text-align:left">.cat</td>
+<td style="text-align:left">application/vnd.ms-pki.seccat</td>
+</tr>
+<tr>
+<td style="text-align:left">.cdf</td>
+<td style="text-align:left">application/x-netcdf</td>
+<td style="text-align:left">.cdr</td>
+<td style="text-align:left">application/x-cdr</td>
+</tr>
+<tr>
+<td style="text-align:left">.cel</td>
+<td style="text-align:left">application/x-cel</td>
+<td style="text-align:left">.cer</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+</tr>
+<tr>
+<td style="text-align:left">.cg4</td>
+<td style="text-align:left">application/x-g4</td>
+<td style="text-align:left">.cgm</td>
+<td style="text-align:left">application/x-cgm</td>
+</tr>
+<tr>
+<td style="text-align:left">.cit</td>
+<td style="text-align:left">application/x-cit</td>
+<td style="text-align:left">.class</td>
+<td style="text-align:left">java/*</td>
+</tr>
+<tr>
+<td style="text-align:left">.cml</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.cmp</td>
+<td style="text-align:left">application/x-cmp</td>
+</tr>
+<tr>
+<td style="text-align:left">.cmx</td>
+<td style="text-align:left">application/x-cmx</td>
+<td style="text-align:left">.cot</td>
+<td style="text-align:left">application/x-cot</td>
+</tr>
+<tr>
+<td style="text-align:left">.crl</td>
+<td style="text-align:left">application/pkix-crl</td>
+<td style="text-align:left">.crt</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+</tr>
+<tr>
+<td style="text-align:left">.csi</td>
+<td style="text-align:left">application/x-csi</td>
+<td style="text-align:left">.css</td>
+<td style="text-align:left">text/css</td>
+</tr>
+<tr>
+<td style="text-align:left">.cut</td>
+<td style="text-align:left">application/x-cut</td>
+<td style="text-align:left">.dbf</td>
+<td style="text-align:left">application/x-dbf</td>
+</tr>
+<tr>
+<td style="text-align:left">.dbm</td>
+<td style="text-align:left">application/x-dbm</td>
+<td style="text-align:left">.dbx</td>
+<td style="text-align:left">application/x-dbx</td>
+</tr>
+<tr>
+<td style="text-align:left">.dcd</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.dcx</td>
+<td style="text-align:left">application/x-dcx</td>
+</tr>
+<tr>
+<td style="text-align:left">.der</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+<td style="text-align:left">.dgn</td>
+<td style="text-align:left">application/x-dgn</td>
+</tr>
+<tr>
+<td style="text-align:left">.dib</td>
+<td style="text-align:left">application/x-dib</td>
+<td style="text-align:left">.dll</td>
+<td style="text-align:left">application/x-msdownload</td>
+</tr>
+<tr>
+<td style="text-align:left">.doc</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.dot</td>
+<td style="text-align:left">application/msword</td>
+</tr>
+<tr>
+<td style="text-align:left">.drw</td>
+<td style="text-align:left">application/x-drw</td>
+<td style="text-align:left">.dtd</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.dwf</td>
+<td style="text-align:left">Model/vnd.dwf</td>
+<td style="text-align:left">.dwf</td>
+<td style="text-align:left">application/x-dwf</td>
+</tr>
+<tr>
+<td style="text-align:left">.dwg</td>
+<td style="text-align:left">application/x-dwg</td>
+<td style="text-align:left">.dxb</td>
+<td style="text-align:left">application/x-dxb</td>
+</tr>
+<tr>
+<td style="text-align:left">.dxf</td>
+<td style="text-align:left">application/x-dxf</td>
+<td style="text-align:left">.edn</td>
+<td style="text-align:left">application/vnd.adobe.edn</td>
+</tr>
+<tr>
+<td style="text-align:left">.emf</td>
+<td style="text-align:left">application/x-emf</td>
+<td style="text-align:left">.eml</td>
+<td style="text-align:left">message/rfc822</td>
+</tr>
+<tr>
+<td style="text-align:left">.ent</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.epi</td>
+<td style="text-align:left">application/x-epi</td>
+</tr>
+<tr>
+<td style="text-align:left">.eps</td>
+<td style="text-align:left">application/x-ps</td>
+<td style="text-align:left">.eps</td>
+<td style="text-align:left">application/postscript</td>
+</tr>
+<tr>
+<td style="text-align:left">.etd</td>
+<td style="text-align:left">application/x-ebx</td>
+<td style="text-align:left">.exe</td>
+<td style="text-align:left">application/x-msdownload</td>
+</tr>
+<tr>
+<td style="text-align:left">.fax</td>
+<td style="text-align:left">image/fax</td>
+<td style="text-align:left">.fdf</td>
+<td style="text-align:left">application/vnd.fdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.fif</td>
+<td style="text-align:left">application/fractals</td>
+<td style="text-align:left">.fo</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.frm</td>
+<td style="text-align:left">application/x-frm</td>
+<td style="text-align:left">.g4</td>
+<td style="text-align:left">application/x-g4</td>
+</tr>
+<tr>
+<td style="text-align:left">.gbr</td>
+<td style="text-align:left">application/x-gbr</td>
+<td style="text-align:left">.</td>
+<td style="text-align:left">application/x-</td>
+</tr>
+<tr>
+<td style="text-align:left">.gif</td>
+<td style="text-align:left">image/gif</td>
+<td style="text-align:left">.gl2</td>
+<td style="text-align:left">application/x-gl2</td>
+</tr>
+<tr>
+<td style="text-align:left">.gp4</td>
+<td style="text-align:left">application/x-gp4</td>
+<td style="text-align:left">.hgl</td>
+<td style="text-align:left">application/x-hgl</td>
+</tr>
+<tr>
+<td style="text-align:left">.hmr</td>
+<td style="text-align:left">application/x-hmr</td>
+<td style="text-align:left">.hpg</td>
+<td style="text-align:left">application/x-hpgl</td>
+</tr>
+<tr>
+<td style="text-align:left">.hpl</td>
+<td style="text-align:left">application/x-hpl</td>
+<td style="text-align:left">.hqx</td>
+<td style="text-align:left">application/mac-binhex40</td>
+</tr>
+<tr>
+<td style="text-align:left">.hrf</td>
+<td style="text-align:left">application/x-hrf</td>
+<td style="text-align:left">.hta</td>
+<td style="text-align:left">application/hta</td>
+</tr>
+<tr>
+<td style="text-align:left">.htc</td>
+<td style="text-align:left">text/x-component</td>
+<td style="text-align:left">.htm</td>
+<td style="text-align:left">text/html</td>
+</tr>
+<tr>
+<td style="text-align:left">.html</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.htt</td>
+<td style="text-align:left">text/webviewhtml</td>
+</tr>
+<tr>
+<td style="text-align:left">.htx</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.icb</td>
+<td style="text-align:left">application/x-icb</td>
+</tr>
+<tr>
+<td style="text-align:left">.ico</td>
+<td style="text-align:left">image/x-icon</td>
+<td style="text-align:left">.ico</td>
+<td style="text-align:left">application/x-ico</td>
+</tr>
+<tr>
+<td style="text-align:left">.iff</td>
+<td style="text-align:left">application/x-iff</td>
+<td style="text-align:left">.ig4</td>
+<td style="text-align:left">application/x-g4</td>
+</tr>
+<tr>
+<td style="text-align:left">.igs</td>
+<td style="text-align:left">application/x-igs</td>
+<td style="text-align:left">.iii</td>
+<td style="text-align:left">application/x-iphone</td>
+</tr>
+<tr>
+<td style="text-align:left">.img</td>
+<td style="text-align:left">application/x-img</td>
+<td style="text-align:left">.ins</td>
+<td style="text-align:left">application/x-internet-signup</td>
+</tr>
+<tr>
+<td style="text-align:left">.isp</td>
+<td style="text-align:left">application/x-internet-signup</td>
+<td style="text-align:left">.IVF</td>
+<td style="text-align:left">video/x-ivf</td>
+</tr>
+<tr>
+<td style="text-align:left">.java</td>
+<td style="text-align:left">java/*</td>
+<td style="text-align:left">.jfif</td>
+<td style="text-align:left">image/jpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpe</td>
+<td style="text-align:left">image/jpeg</td>
+<td style="text-align:left">.jpe</td>
+<td style="text-align:left">application/x-jpe</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpeg</td>
+<td style="text-align:left">image/jpeg</td>
+<td style="text-align:left">.jpg</td>
+<td style="text-align:left">image/jpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpg</td>
+<td style="text-align:left">application/x-jpg</td>
+<td style="text-align:left">.js</td>
+<td style="text-align:left">application/x-javascript</td>
+</tr>
+<tr>
+<td style="text-align:left">.jsp</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.la1</td>
+<td style="text-align:left">audio/x-liquid-file</td>
+</tr>
+<tr>
+<td style="text-align:left">.lar</td>
+<td style="text-align:left">application/x-laplayer-reg</td>
+<td style="text-align:left">.latex</td>
+<td style="text-align:left">application/x-latex</td>
+</tr>
+<tr>
+<td style="text-align:left">.lavs</td>
+<td style="text-align:left">audio/x-liquid-secure</td>
+<td style="text-align:left">.lbm</td>
+<td style="text-align:left">application/x-lbm</td>
+</tr>
+<tr>
+<td style="text-align:left">.lmsff</td>
+<td style="text-align:left">audio/x-la-lms</td>
+<td style="text-align:left">.ls</td>
+<td style="text-align:left">application/x-javascript</td>
+</tr>
+<tr>
+<td style="text-align:left">.ltr</td>
+<td style="text-align:left">application/x-ltr</td>
+<td style="text-align:left">.m1v</td>
+<td style="text-align:left">video/x-mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.m2v</td>
+<td style="text-align:left">video/x-mpeg</td>
+<td style="text-align:left">.m3u</td>
+<td style="text-align:left">audio/mpegurl</td>
+</tr>
+<tr>
+<td style="text-align:left">.m4e</td>
+<td style="text-align:left">video/mpeg4</td>
+<td style="text-align:left">.mac</td>
+<td style="text-align:left">application/x-mac</td>
+</tr>
+<tr>
+<td style="text-align:left">.man</td>
+<td style="text-align:left">application/x-troff-man</td>
+<td style="text-align:left">.math</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.mdb</td>
+<td style="text-align:left">application/msaccess</td>
+<td style="text-align:left">.mdb</td>
+<td style="text-align:left">application/x-mdb</td>
+</tr>
+<tr>
+<td style="text-align:left">.mfp</td>
+<td style="text-align:left">application/x-shockwave-flash</td>
+<td style="text-align:left">.mht</td>
+<td style="text-align:left">message/rfc822</td>
+</tr>
+<tr>
+<td style="text-align:left">.mhtml</td>
+<td style="text-align:left">message/rfc822</td>
+<td style="text-align:left">.mi</td>
+<td style="text-align:left">application/x-mi</td>
+</tr>
+<tr>
+<td style="text-align:left">.mid</td>
+<td style="text-align:left">audio/mid</td>
+<td style="text-align:left">.midi</td>
+<td style="text-align:left">audio/mid</td>
+</tr>
+<tr>
+<td style="text-align:left">.mil</td>
+<td style="text-align:left">application/x-mil</td>
+<td style="text-align:left">.mml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.mnd</td>
+<td style="text-align:left">audio/x-musicnet-download</td>
+<td style="text-align:left">.mns</td>
+<td style="text-align:left">audio/x-musicnet-stream</td>
+</tr>
+<tr>
+<td style="text-align:left">.mocha</td>
+<td style="text-align:left">application/x-javascript</td>
+<td style="text-align:left">.movie</td>
+<td style="text-align:left">video/x-sgi-movie</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp1</td>
+<td style="text-align:left">audio/mp1</td>
+<td style="text-align:left">.mp2</td>
+<td style="text-align:left">audio/mp2</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp2v</td>
+<td style="text-align:left">video/mpeg</td>
+<td style="text-align:left">.mp3</td>
+<td style="text-align:left">audio/mp3</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp4</td>
+<td style="text-align:left">video/mpeg4</td>
+<td style="text-align:left">.mpa</td>
+<td style="text-align:left">video/x-mpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpd</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+<td style="text-align:left">.mpe</td>
+<td style="text-align:left">video/x-mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpeg</td>
+<td style="text-align:left">video/mpg</td>
+<td style="text-align:left">.mpg</td>
+<td style="text-align:left">video/mpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpga</td>
+<td style="text-align:left">audio/rn-mpeg</td>
+<td style="text-align:left">.mpp</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mps</td>
+<td style="text-align:left">video/x-mpeg</td>
+<td style="text-align:left">.mpt</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpv</td>
+<td style="text-align:left">video/mpg</td>
+<td style="text-align:left">.mpv2</td>
+<td style="text-align:left">video/mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpw</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+<td style="text-align:left">.mpx</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mtx</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.mxp</td>
+<td style="text-align:left">application/x-mmxp</td>
+</tr>
+<tr>
+<td style="text-align:left">.net</td>
+<td style="text-align:left">image/pnetvue</td>
+<td style="text-align:left">.nrf</td>
+<td style="text-align:left">application/x-nrf</td>
+</tr>
+<tr>
+<td style="text-align:left">.nws</td>
+<td style="text-align:left">message/rfc822</td>
+<td style="text-align:left">.odc</td>
+<td style="text-align:left">text/x-ms-odc</td>
+</tr>
+<tr>
+<td style="text-align:left">.out</td>
+<td style="text-align:left">application/x-out</td>
+<td style="text-align:left">.p10</td>
+<td style="text-align:left">application/pkcs10</td>
+</tr>
+<tr>
+<td style="text-align:left">.p12</td>
+<td style="text-align:left">application/x-pkcs12</td>
+<td style="text-align:left">.p7b</td>
+<td style="text-align:left">application/x-pkcs7-certificates</td>
+</tr>
+<tr>
+<td style="text-align:left">.p7c</td>
+<td style="text-align:left">application/pkcs7-mime</td>
+<td style="text-align:left">.p7m</td>
+<td style="text-align:left">application/pkcs7-mime</td>
+</tr>
+<tr>
+<td style="text-align:left">.p7r</td>
+<td style="text-align:left">application/x-pkcs7-certreqresp</td>
+<td style="text-align:left">.p7s</td>
+<td style="text-align:left">application/pkcs7-signature</td>
+</tr>
+<tr>
+<td style="text-align:left">.pc5</td>
+<td style="text-align:left">application/x-pc5</td>
+<td style="text-align:left">.pci</td>
+<td style="text-align:left">application/x-pci</td>
+</tr>
+<tr>
+<td style="text-align:left">.pcl</td>
+<td style="text-align:left">application/x-pcl</td>
+<td style="text-align:left">.pcx</td>
+<td style="text-align:left">application/x-pcx</td>
+</tr>
+<tr>
+<td style="text-align:left">.pdf</td>
+<td style="text-align:left">application/pdf</td>
+<td style="text-align:left">.pdf</td>
+<td style="text-align:left">application/pdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.pdx</td>
+<td style="text-align:left">application/vnd.adobe.pdx</td>
+<td style="text-align:left">.pfx</td>
+<td style="text-align:left">application/x-pkcs12</td>
+</tr>
+<tr>
+<td style="text-align:left">.pgl</td>
+<td style="text-align:left">application/x-pgl</td>
+<td style="text-align:left">.pic</td>
+<td style="text-align:left">application/x-pic</td>
+</tr>
+<tr>
+<td style="text-align:left">.pko</td>
+<td style="text-align:left">application/vnd.ms-pki.pko</td>
+<td style="text-align:left">.pl</td>
+<td style="text-align:left">application/x-perl</td>
+</tr>
+<tr>
+<td style="text-align:left">.plg</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.pls</td>
+<td style="text-align:left">audio/scpls</td>
+</tr>
+<tr>
+<td style="text-align:left">.plt</td>
+<td style="text-align:left">application/x-plt</td>
+<td style="text-align:left">.png</td>
+<td style="text-align:left">image/png</td>
+</tr>
+<tr>
+<td style="text-align:left">.png</td>
+<td style="text-align:left">application/x-png</td>
+<td style="text-align:left">.pot</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+</tr>
+<tr>
+<td style="text-align:left">.ppa</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.ppm</td>
+<td style="text-align:left">application/x-ppm</td>
+</tr>
+<tr>
+<td style="text-align:left">.pps</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.ppt</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+</tr>
+<tr>
+<td style="text-align:left">.ppt</td>
+<td style="text-align:left">application/x-ppt</td>
+<td style="text-align:left">.pr</td>
+<td style="text-align:left">application/x-pr</td>
+</tr>
+<tr>
+<td style="text-align:left">.prf</td>
+<td style="text-align:left">application/pics-rules</td>
+<td style="text-align:left">.prn</td>
+<td style="text-align:left">application/x-prn</td>
+</tr>
+<tr>
+<td style="text-align:left">.prt</td>
+<td style="text-align:left">application/x-prt</td>
+<td style="text-align:left">.ps</td>
+<td style="text-align:left">application/x-ps</td>
+</tr>
+<tr>
+<td style="text-align:left">.ps</td>
+<td style="text-align:left">application/postscript</td>
+<td style="text-align:left">.ptn</td>
+<td style="text-align:left">application/x-ptn</td>
+</tr>
+<tr>
+<td style="text-align:left">.pwz</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.r3t</td>
+<td style="text-align:left">text/vnd.rn-realtext3d</td>
+</tr>
+<tr>
+<td style="text-align:left">.ra</td>
+<td style="text-align:left">audio/vnd.rn-realaudio</td>
+<td style="text-align:left">.ram</td>
+<td style="text-align:left">audio/x-pn-realaudio</td>
+</tr>
+<tr>
+<td style="text-align:left">.ras</td>
+<td style="text-align:left">application/x-ras</td>
+<td style="text-align:left">.rat</td>
+<td style="text-align:left">application/rat-file</td>
+</tr>
+<tr>
+<td style="text-align:left">.rdf</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.rec</td>
+<td style="text-align:left">application/vnd.rn-recording</td>
+</tr>
+<tr>
+<td style="text-align:left">.red</td>
+<td style="text-align:left">application/x-red</td>
+<td style="text-align:left">.rgb</td>
+<td style="text-align:left">application/x-rgb</td>
+</tr>
+<tr>
+<td style="text-align:left">.rjs</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rjs</td>
+<td style="text-align:left">.rjt</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rjt</td>
+</tr>
+<tr>
+<td style="text-align:left">.rlc</td>
+<td style="text-align:left">application/x-rlc</td>
+<td style="text-align:left">.rle</td>
+<td style="text-align:left">application/x-rle</td>
+</tr>
+<tr>
+<td style="text-align:left">.rm</td>
+<td style="text-align:left">application/vnd.rn-realmedia</td>
+<td style="text-align:left">.rmf</td>
+<td style="text-align:left">application/vnd.adobe.rmf</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmi</td>
+<td style="text-align:left">audio/mid</td>
+<td style="text-align:left">.rmj</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rmj</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmm</td>
+<td style="text-align:left">audio/x-pn-realaudio</td>
+<td style="text-align:left">.rmp</td>
+<td style="text-align:left">application/vnd.rn-rn_music_package</td>
+</tr>
+<tr>
+<td style="text-align:left">.rms</td>
+<td style="text-align:left">application/vnd.rn-realmedia-secure</td>
+<td style="text-align:left">.rmvb</td>
+<td style="text-align:left">application/vnd.rn-realmedia-vbr</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmx</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rmx</td>
+<td style="text-align:left">.rnx</td>
+<td style="text-align:left">application/vnd.rn-realplayer</td>
+</tr>
+<tr>
+<td style="text-align:left">.rp</td>
+<td style="text-align:left">image/vnd.rn-realpix</td>
+<td style="text-align:left">.rpm</td>
+<td style="text-align:left">audio/x-pn-realaudio-plugin</td>
+</tr>
+<tr>
+<td style="text-align:left">.rsml</td>
+<td style="text-align:left">application/vnd.rn-rsml</td>
+<td style="text-align:left">.rt</td>
+<td style="text-align:left">text/vnd.rn-realtext</td>
+</tr>
+<tr>
+<td style="text-align:left">.rtf</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.rtf</td>
+<td style="text-align:left">application/x-rtf</td>
+</tr>
+<tr>
+<td style="text-align:left">.rv</td>
+<td style="text-align:left">video/vnd.rn-realvideo</td>
+<td style="text-align:left">.sam</td>
+<td style="text-align:left">application/x-sam</td>
+</tr>
+<tr>
+<td style="text-align:left">.sat</td>
+<td style="text-align:left">application/x-sat</td>
+<td style="text-align:left">.sdp</td>
+<td style="text-align:left">application/sdp</td>
+</tr>
+<tr>
+<td style="text-align:left">.sdw</td>
+<td style="text-align:left">application/x-sdw</td>
+<td style="text-align:left">.sit</td>
+<td style="text-align:left">application/x-stuffit</td>
+</tr>
+<tr>
+<td style="text-align:left">.slb</td>
+<td style="text-align:left">application/x-slb</td>
+<td style="text-align:left">.sld</td>
+<td style="text-align:left">application/x-sld</td>
+</tr>
+<tr>
+<td style="text-align:left">.slk</td>
+<td style="text-align:left">drawing/x-slk</td>
+<td style="text-align:left">.smi</td>
+<td style="text-align:left">application/smil</td>
+</tr>
+<tr>
+<td style="text-align:left">.smil</td>
+<td style="text-align:left">application/smil</td>
+<td style="text-align:left">.smk</td>
+<td style="text-align:left">application/x-smk</td>
+</tr>
+<tr>
+<td style="text-align:left">.snd</td>
+<td style="text-align:left">audio/basic</td>
+<td style="text-align:left">.sol</td>
+<td style="text-align:left">text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">.sor</td>
+<td style="text-align:left">text/plain</td>
+<td style="text-align:left">.spc</td>
+<td style="text-align:left">application/x-pkcs7-certificates</td>
+</tr>
+<tr>
+<td style="text-align:left">.spl</td>
+<td style="text-align:left">application/futuresplash</td>
+<td style="text-align:left">.spp</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.ssm</td>
+<td style="text-align:left">application/streamingmedia</td>
+<td style="text-align:left">.sst</td>
+<td style="text-align:left">application/vnd.ms-pki.certstore</td>
+</tr>
+<tr>
+<td style="text-align:left">.stl</td>
+<td style="text-align:left">application/vnd.ms-pki.stl</td>
+<td style="text-align:left">.stm</td>
+<td style="text-align:left">text/html</td>
+</tr>
+<tr>
+<td style="text-align:left">.sty</td>
+<td style="text-align:left">application/x-sty</td>
+<td style="text-align:left">.svg</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.swf</td>
+<td style="text-align:left">application/x-shockwave-flash</td>
+<td style="text-align:left">.tdf</td>
+<td style="text-align:left">application/x-tdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.tg4</td>
+<td style="text-align:left">application/x-tg4</td>
+<td style="text-align:left">.tga</td>
+<td style="text-align:left">application/x-tga</td>
+</tr>
+<tr>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">image/tiff</td>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">application/x-tif</td>
+</tr>
+<tr>
+<td style="text-align:left">.tiff</td>
+<td style="text-align:left">image/tiff</td>
+<td style="text-align:left">.tld</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.top</td>
+<td style="text-align:left">drawing/x-top</td>
+<td style="text-align:left">.torrent</td>
+<td style="text-align:left">application/x-bittorrent</td>
+</tr>
+<tr>
+<td style="text-align:left">.tsd</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.txt</td>
+<td style="text-align:left">text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">.uin</td>
+<td style="text-align:left">application/x-icq</td>
+<td style="text-align:left">.uls</td>
+<td style="text-align:left">text/iuls</td>
+</tr>
+<tr>
+<td style="text-align:left">.vcf</td>
+<td style="text-align:left">text/x-vcard</td>
+<td style="text-align:left">.vda</td>
+<td style="text-align:left">application/x-vda</td>
+</tr>
+<tr>
+<td style="text-align:left">.vdx</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.vpg</td>
+<td style="text-align:left">application/x-vpeg005</td>
+<td style="text-align:left">.vsd</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vsd</td>
+<td style="text-align:left">application/x-vsd</td>
+<td style="text-align:left">.vss</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vst</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vst</td>
+<td style="text-align:left">application/x-vst</td>
+</tr>
+<tr>
+<td style="text-align:left">.vsw</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vsx</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vtx</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vxml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.wav</td>
+<td style="text-align:left">audio/wav</td>
+<td style="text-align:left">.wax</td>
+<td style="text-align:left">audio/x-ms-wax</td>
+</tr>
+<tr>
+<td style="text-align:left">.wb1</td>
+<td style="text-align:left">application/x-wb1</td>
+<td style="text-align:left">.wb2</td>
+<td style="text-align:left">application/x-wb2</td>
+</tr>
+<tr>
+<td style="text-align:left">.wb3</td>
+<td style="text-align:left">application/x-wb3</td>
+<td style="text-align:left">.wbmp</td>
+<td style="text-align:left">image/vnd.wap.wbmp</td>
+</tr>
+<tr>
+<td style="text-align:left">.wiz</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.wk3</td>
+<td style="text-align:left">application/x-wk3</td>
+</tr>
+<tr>
+<td style="text-align:left">.wk4</td>
+<td style="text-align:left">application/x-wk4</td>
+<td style="text-align:left">.wkq</td>
+<td style="text-align:left">application/x-wkq</td>
+</tr>
+<tr>
+<td style="text-align:left">.wks</td>
+<td style="text-align:left">application/x-wks</td>
+<td style="text-align:left">.wm</td>
+<td style="text-align:left">video/x-ms-wm</td>
+</tr>
+<tr>
+<td style="text-align:left">.wma</td>
+<td style="text-align:left">audio/x-ms-wma</td>
+<td style="text-align:left">.wmd</td>
+<td style="text-align:left">application/x-ms-wmd</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmf</td>
+<td style="text-align:left">application/x-wmf</td>
+<td style="text-align:left">.wml</td>
+<td style="text-align:left">text/vnd.wap.wml</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmv</td>
+<td style="text-align:left">video/x-ms-wmv</td>
+<td style="text-align:left">.wmx</td>
+<td style="text-align:left">video/x-ms-wmx</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmz</td>
+<td style="text-align:left">application/x-ms-wmz</td>
+<td style="text-align:left">.wp6</td>
+<td style="text-align:left">application/x-wp6</td>
+</tr>
+<tr>
+<td style="text-align:left">.wpd</td>
+<td style="text-align:left">application/x-wpd</td>
+<td style="text-align:left">.wpg</td>
+<td style="text-align:left">application/x-wpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.wpl</td>
+<td style="text-align:left">application/vnd.ms-wpl</td>
+<td style="text-align:left">.wq1</td>
+<td style="text-align:left">application/x-wq1</td>
+</tr>
+<tr>
+<td style="text-align:left">.wr1</td>
+<td style="text-align:left">application/x-wr1</td>
+<td style="text-align:left">.wri</td>
+<td style="text-align:left">application/x-wri</td>
+</tr>
+<tr>
+<td style="text-align:left">.wrk</td>
+<td style="text-align:left">application/x-wrk</td>
+<td style="text-align:left">.ws</td>
+<td style="text-align:left">application/x-ws</td>
+</tr>
+<tr>
+<td style="text-align:left">.ws2</td>
+<td style="text-align:left">application/x-ws</td>
+<td style="text-align:left">.wsc</td>
+<td style="text-align:left">text/scriptlet</td>
+</tr>
+<tr>
+<td style="text-align:left">.wsdl</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.wvx</td>
+<td style="text-align:left">video/x-ms-wvx</td>
+</tr>
+<tr>
+<td style="text-align:left">.xdp</td>
+<td style="text-align:left">application/vnd.adobe.xdp</td>
+<td style="text-align:left">.xdr</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xfd</td>
+<td style="text-align:left">application/vnd.adobe.xfd</td>
+<td style="text-align:left">.xfdf</td>
+<td style="text-align:left">application/vnd.adobe.xfdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.xhtml</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.xls</td>
+<td style="text-align:left">application/vnd.ms-excel</td>
+</tr>
+<tr>
+<td style="text-align:left">.xls</td>
+<td style="text-align:left">application/x-xls</td>
+<td style="text-align:left">.xlw</td>
+<td style="text-align:left">application/x-xlw</td>
+</tr>
+<tr>
+<td style="text-align:left">.xml</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xpl</td>
+<td style="text-align:left">audio/scpls</td>
+</tr>
+<tr>
+<td style="text-align:left">.xq</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xql</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xquery</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xsd</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xsl</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xslt</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xwd</td>
+<td style="text-align:left">application/x-xwd</td>
+<td style="text-align:left">.x_b</td>
+<td style="text-align:left">application/x-x_b</td>
+</tr>
+<tr>
+<td style="text-align:left">.sis</td>
+<td style="text-align:left">application/vnd.symbian.install</td>
+<td style="text-align:left">.sisx</td>
+<td style="text-align:left">application/vnd.symbian.install</td>
+</tr>
+<tr>
+<td style="text-align:left">.x_t</td>
+<td style="text-align:left">application/x-x_t</td>
+<td style="text-align:left">.ipa</td>
+<td style="text-align:left">application/vnd.iphone</td>
+</tr>
+<tr>
+<td style="text-align:left">.apk</td>
+<td style="text-align:left">application/vnd.android.package-archive</td>
+<td style="text-align:left">.xap</td>
+<td style="text-align:left">application/x-silverlight-app</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%AF%B9%E7%85%A7%E8%A1%A8/">对照表</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="//cdn.jsdelivr.net/npm/twikoo@1.6.20/dist/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button{
+        color: var(--twikoo-body-text-color)!important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/comment.petrichor.net.cn',
+        el: '#tcomment',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 的啊达
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.20.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
