@@ -1,155 +1,121 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Windows on 的啊达</title>
-        <link>https://petrichor.net.cn/tags/windows/</link>
-        <description>Recent content in Windows on 的啊达</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <lastBuildDate>Fri, 16 Sep 2022 16:12:18 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/windows/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>如何让 F1 不再打开帮助页面</title>
-        <link>https://petrichor.net.cn/p/stop-f1-opening-browser/</link>
-        <pubDate>Fri, 16 Sep 2022 16:12:18 +0800</pubDate>
-        
-        <guid>https://petrichor.net.cn/p/stop-f1-opening-browser/</guid>
-        <description>&lt;p&gt;在 Windows 中，按 
-
-
-&lt;kbd class=&#34;kbd-display&#34;&gt;F1&lt;/kbd&gt; 会使用浏览器打开帮助页面，而我的电脑 
-
-
-&lt;kbd class=&#34;kbd-display&#34;&gt;F1&lt;/kbd&gt; - 
-
-
-&lt;kbd class=&#34;kbd-display&#34;&gt;F12&lt;/kbd&gt; 默认是功能键，如果不小心按到 
-
-
-&lt;kbd class=&#34;kbd-display&#34;&gt;F1&lt;/kbd&gt; 就会打开浏览器，很烦。现在找到一个办法，可以把这个功能关掉。&lt;/p&gt;
-&lt;h2 id=&#34;方法&#34;&gt;方法&lt;/h2&gt;
-&lt;p&gt;使用管理员权限运行这个脚本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;@echo off
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;taskkill /f /im HelpPane.exe
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;takeown /f %WinDir%\HelpPane.exe
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;icacls %WinDir%\HelpPane.exe /deny Everyone:(X)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;来源：&lt;a class=&#34;link&#34; href=&#34;https://answers.microsoft.com/en-us/windows/forum/all/how-do-i-stop-f1-opening-a-browser-window-on-how/7f68f9b8-9d87-43a5-9a79-db87702254b5&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://answers.microsoft.com/en-us/windows/forum/all/how-do-i-stop-f1-opening-a-browser-window-on-how/7f68f9b8-9d87-43a5-9a79-db87702254b5&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;成功: 已终止进程 &amp;ldquo;HelpPane.exe&amp;rdquo;，其 PID 为 5600。&lt;/p&gt;
-&lt;p&gt;成功: 此文件(或文件夹): &amp;ldquo;C:\Windows\HelpPane.exe&amp;rdquo; 现在由用户 &amp;ldquo;？？\用户名&amp;rdquo; 所有。&lt;/p&gt;
-&lt;p&gt;已处理的文件: C:\Windows\HelpPane.exe
-已成功处理 1 个文件; 处理 0 个文件时失败&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;命令详解&#34;&gt;命令详解&lt;/h2&gt;
-&lt;h3 id=&#34;taskkillhttpsdocsmicrosoftcomzh-cnwindows-serveradministrationwindows-commandstaskkill&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/taskkill&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;taskkill&lt;/a&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;适用范围：Windows Server 2022、Windows Server 2019、Windows Server 2016、Windows Server 2012 R2、Windows Server 2012&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;结束一个或多个任务或进程。 可以通过进程 ID 或图像名称结束进程。 您可以使用 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/tasklist&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;tasklist 命令&lt;/a&gt; 命令来确定进程 ID (PID) 以结束进程。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;备注：此命令替换 &lt;strong&gt;kill&lt;/strong&gt; 工具。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;taskkill &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/s &amp;lt;computer&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/u &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&amp;lt;domain&amp;gt;&lt;span class=&#34;se&#34;&gt;\]&lt;/span&gt;&amp;lt;username&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/p &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&amp;lt;password&amp;gt;&lt;span class=&#34;o&#34;&gt;]]]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{[&lt;/span&gt;/fi &amp;lt;filter&amp;gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;...&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/pid &amp;lt;processID&amp;gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; /im &amp;lt;imagename&amp;gt;&lt;span class=&#34;o&#34;&gt;]}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/f&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/t&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;takeownhttpsdocsmicrosoftcomzh-cnwindows-serveradministrationwindows-commandstakeown&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/takeown&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;takeown&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;使管理员作为文件的所有者，恢复对之前被拒文件的访问权限。 此命令通常用于批处理文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;takeown &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/s &amp;lt;computer&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/u &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&amp;lt;domain&amp;gt;&lt;span class=&#34;se&#34;&gt;\]&lt;/span&gt;&amp;lt;username&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/p &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&amp;lt;password&amp;gt;&lt;span class=&#34;o&#34;&gt;]]]]&lt;/span&gt; /f &amp;lt;filename&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/a&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/r &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/d &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;Y&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;N&lt;span class=&#34;o&#34;&gt;}]]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;icaclshttpsdocsmicrosoftcomzh-cnwindows-serveradministrationwindows-commandsicacls&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/icacls&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;icacls&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;显示或修改指定文件上的随机访问控制列表 (DACL)，并将存储的 DACL 应用于指定目录中的文件。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;备注：此命令替换已弃用 的 &lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/cacls&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;cacls 命令&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;icacls &amp;lt;filename&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/grant&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;:r&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &amp;lt;sid&amp;gt;:&amp;lt;perm&amp;gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;...&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/deny &amp;lt;sid&amp;gt;:&amp;lt;perm&amp;gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;...&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/remove&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;:g&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;:d&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt; &amp;lt;sid&amp;gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;...&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/t&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/c&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/l&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/q&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/setintegritylevel &amp;lt;Level&amp;gt;:&amp;lt;policy&amp;gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;...&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;icacls &amp;lt;directory&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/substitute &amp;lt;sidold&amp;gt; &amp;lt;sidnew&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;...&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/restore &amp;lt;aclfile&amp;gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/c&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/l&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;/q&lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        <item>
-        <title>Webp Bat</title>
-        <link>https://petrichor.net.cn/p/webp-bat/</link>
-        <pubDate>Sun, 26 Dec 2021 23:00:39 +0800</pubDate>
-        
-        <guid>https://petrichor.net.cn/p/webp-bat/</guid>
-        <description>&lt;h2 id=&#34;遍历指定文件夹下的所有-png-文件并转换为-webp-格式&#34;&gt;遍历&lt;strong&gt;指定文件夹&lt;/strong&gt;下的所有 &lt;code&gt;.png&lt;/code&gt; 文件，并转换为 &lt;code&gt;.webp&lt;/code&gt; 格式&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;@echo off
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;for %%a in (D:\Blog\source\assets\*.png)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	do (cwebp.exe -q 80 %%a -o %%~na.webp)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pause
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;遍历当前目录所有子文件夹下的所有-png-文件并转换为-webp-格式&#34;&gt;遍历当前目录&lt;strong&gt;所有子文件夹&lt;/strong&gt;下的所有 &lt;code&gt;.png&lt;/code&gt; 文件，并转换为 &lt;code&gt;.webp&lt;/code&gt; 格式&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;@echo off
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;set DIR=&amp;#34;%cd%&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;echo DIR=%DIR%
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;for /d %%d in (*) do (
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    echo %%d
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    for %%a in (%%d\*.png) do (cwebp.exe -q 80 %%a -o %%d\%%~na.webp)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pause
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;其中 &lt;strong&gt;&lt;code&gt;%%~na&lt;/code&gt;&lt;/strong&gt; 是取 &lt;strong&gt;&lt;code&gt;%%a&lt;/code&gt;&lt;/strong&gt; 这个文件的&lt;strong&gt;文件名&lt;/strong&gt;（去掉路径且不带后缀）&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;本来是用 &lt;code&gt;gulp-webp&lt;/code&gt; 的，结果一直报错而且乱码，找不到原因，只能手动转了（破案了，这个库我下载之后找不到对应的二进制文件，把原先下载的复制过去就好了）。&lt;/p&gt;</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on 的啊达</title><link>https://petrichor.net.cn/tags/windows/</link><description>Recent content in Windows on 的啊达</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 16 Sep 2022 16:12:18 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>如何让 F1 不再打开帮助页面</title><link>https://petrichor.net.cn/p/stop-f1-opening-browser/</link><pubDate>Fri, 16 Sep 2022 16:12:18 +0800</pubDate><guid>https://petrichor.net.cn/p/stop-f1-opening-browser/</guid><description>&lt;p>在 Windows 中，按
+&lt;kbd class="kbd-display">F1&lt;/kbd> 会使用浏览器打开帮助页面，而我的电脑
+&lt;kbd class="kbd-display">F1&lt;/kbd> -
+&lt;kbd class="kbd-display">F12&lt;/kbd> 默认是功能键，如果不小心按到
+&lt;kbd class="kbd-display">F1&lt;/kbd> 就会打开浏览器，很烦。现在找到一个办法，可以把这个功能关掉。&lt;/p>
+&lt;h2 id="方法">方法&lt;/h2>
+&lt;p>使用管理员权限运行这个脚本：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">@echo off
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">taskkill /f /im HelpPane.exe
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">takeown /f %WinDir%\HelpPane.exe
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">icacls %WinDir%\HelpPane.exe /deny Everyone:(X)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>来源：&lt;a class="link" href="https://answers.microsoft.com/en-us/windows/forum/all/how-do-i-stop-f1-opening-a-browser-window-on-how/7f68f9b8-9d87-43a5-9a79-db87702254b5" target="_blank" rel="noopener"
+>https://answers.microsoft.com/en-us/windows/forum/all/how-do-i-stop-f1-opening-a-browser-window-on-how/7f68f9b8-9d87-43a5-9a79-db87702254b5&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>输出&lt;/p>
+&lt;blockquote>
+&lt;p>成功: 已终止进程 &amp;ldquo;HelpPane.exe&amp;rdquo;，其 PID 为 5600。&lt;/p>
+&lt;p>成功: 此文件(或文件夹): &amp;ldquo;C:\Windows\HelpPane.exe&amp;rdquo; 现在由用户 &amp;ldquo;？？\用户名&amp;rdquo; 所有。&lt;/p>
+&lt;p>已处理的文件: C:\Windows\HelpPane.exe
+已成功处理 1 个文件; 处理 0 个文件时失败&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="命令详解">命令详解&lt;/h2>
+&lt;h3 id="taskkillhttpsdocsmicrosoftcomzh-cnwindows-serveradministrationwindows-commandstaskkill">&lt;a class="link" href="https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/taskkill" target="_blank" rel="noopener"
+>taskkill&lt;/a>&lt;/h3>
+&lt;blockquote>
+&lt;p>适用范围：Windows Server 2022、Windows Server 2019、Windows Server 2016、Windows Server 2012 R2、Windows Server 2012&lt;/p>
+&lt;/blockquote>
+&lt;p>结束一个或多个任务或进程。 可以通过进程 ID 或图像名称结束进程。 您可以使用 &lt;a class="link" href="https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/tasklist" target="_blank" rel="noopener"
+>tasklist 命令&lt;/a> 命令来确定进程 ID (PID) 以结束进程。&lt;/p>
+&lt;blockquote>
+&lt;p>备注：此命令替换 &lt;strong>kill&lt;/strong> 工具。&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">taskkill &lt;span class="o">[&lt;/span>/s &amp;lt;computer&amp;gt; &lt;span class="o">[&lt;/span>/u &lt;span class="o">[&lt;/span>&amp;lt;domain&amp;gt;&lt;span class="se">\]&lt;/span>&amp;lt;username&amp;gt; &lt;span class="o">[&lt;/span>/p &lt;span class="o">[&lt;/span>&amp;lt;password&amp;gt;&lt;span class="o">]]]]&lt;/span> &lt;span class="o">{[&lt;/span>/fi &amp;lt;filter&amp;gt;&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>...&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/pid &amp;lt;processID&amp;gt; &lt;span class="p">|&lt;/span> /im &amp;lt;imagename&amp;gt;&lt;span class="o">]}&lt;/span> &lt;span class="o">[&lt;/span>/f&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/t&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="takeownhttpsdocsmicrosoftcomzh-cnwindows-serveradministrationwindows-commandstakeown">&lt;a class="link" href="https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/takeown" target="_blank" rel="noopener"
+>takeown&lt;/a>&lt;/h3>
+&lt;p>使管理员作为文件的所有者，恢复对之前被拒文件的访问权限。 此命令通常用于批处理文件。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">takeown &lt;span class="o">[&lt;/span>/s &amp;lt;computer&amp;gt; &lt;span class="o">[&lt;/span>/u &lt;span class="o">[&lt;/span>&amp;lt;domain&amp;gt;&lt;span class="se">\]&lt;/span>&amp;lt;username&amp;gt; &lt;span class="o">[&lt;/span>/p &lt;span class="o">[&lt;/span>&amp;lt;password&amp;gt;&lt;span class="o">]]]]&lt;/span> /f &amp;lt;filename&amp;gt; &lt;span class="o">[&lt;/span>/a&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/r &lt;span class="o">[&lt;/span>/d &lt;span class="o">{&lt;/span>Y&lt;span class="p">|&lt;/span>N&lt;span class="o">}]]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="icaclshttpsdocsmicrosoftcomzh-cnwindows-serveradministrationwindows-commandsicacls">&lt;a class="link" href="https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/icacls" target="_blank" rel="noopener"
+>icacls&lt;/a>&lt;/h3>
+&lt;p>显示或修改指定文件上的随机访问控制列表 (DACL)，并将存储的 DACL 应用于指定目录中的文件。&lt;/p>
+&lt;blockquote>
+&lt;p>备注：此命令替换已弃用 的 &lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/cacls" target="_blank" rel="noopener"
+>cacls 命令&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">icacls &amp;lt;filename&amp;gt; &lt;span class="o">[&lt;/span>/grant&lt;span class="o">[&lt;/span>:r&lt;span class="o">]&lt;/span> &amp;lt;sid&amp;gt;:&amp;lt;perm&amp;gt;&lt;span class="o">[&lt;/span>...&lt;span class="o">]]&lt;/span> &lt;span class="o">[&lt;/span>/deny &amp;lt;sid&amp;gt;:&amp;lt;perm&amp;gt;&lt;span class="o">[&lt;/span>...&lt;span class="o">]]&lt;/span> &lt;span class="o">[&lt;/span>/remove&lt;span class="o">[&lt;/span>:g&lt;span class="p">|&lt;/span>:d&lt;span class="o">]]&lt;/span> &amp;lt;sid&amp;gt;&lt;span class="o">[&lt;/span>...&lt;span class="o">]]&lt;/span> &lt;span class="o">[&lt;/span>/t&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/c&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/l&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/q&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/setintegritylevel &amp;lt;Level&amp;gt;:&amp;lt;policy&amp;gt;&lt;span class="o">[&lt;/span>...&lt;span class="o">]]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">icacls &amp;lt;directory&amp;gt; &lt;span class="o">[&lt;/span>/substitute &amp;lt;sidold&amp;gt; &amp;lt;sidnew&amp;gt; &lt;span class="o">[&lt;/span>...&lt;span class="o">]]&lt;/span> &lt;span class="o">[&lt;/span>/restore &amp;lt;aclfile&amp;gt; &lt;span class="o">[&lt;/span>/c&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/l&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>/q&lt;span class="o">]]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Webp Bat</title><link>https://petrichor.net.cn/p/webp-bat/</link><pubDate>Sun, 26 Dec 2021 23:00:39 +0800</pubDate><guid>https://petrichor.net.cn/p/webp-bat/</guid><description>&lt;h2 id="遍历指定文件夹下的所有-png-文件并转换为-webp-格式">遍历&lt;strong>指定文件夹&lt;/strong>下的所有 &lt;code>.png&lt;/code> 文件，并转换为 &lt;code>.webp&lt;/code> 格式&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">@echo off
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">for %%a in (D:\Blog\source\assets\*.png)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> do (cwebp.exe -q 80 %%a -o %%~na.webp)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pause
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="遍历当前目录所有子文件夹下的所有-png-文件并转换为-webp-格式">遍历当前目录&lt;strong>所有子文件夹&lt;/strong>下的所有 &lt;code>.png&lt;/code> 文件，并转换为 &lt;code>.webp&lt;/code> 格式&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">@echo off
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">set DIR=&amp;#34;%cd%&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">echo DIR=%DIR%
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">for /d %%d in (*) do (
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> echo %%d
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> for %%a in (%%d\*.png) do (cwebp.exe -q 80 %%a -o %%d\%%~na.webp)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pause
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>其中 &lt;strong>&lt;code>%%~na&lt;/code>&lt;/strong> 是取 &lt;strong>&lt;code>%%a&lt;/code>&lt;/strong> 这个文件的&lt;strong>文件名&lt;/strong>（去掉路径且不带后缀）&lt;/p>
+&lt;/blockquote>
+&lt;p>本来是用 &lt;code>gulp-webp&lt;/code> 的，结果一直报错而且乱码，找不到原因，只能手动转了（破案了，这个库我下载之后找不到对应的二进制文件，把原先下载的复制过去就好了）。&lt;/p></description></item></channel></rss>

@@ -1,124 +1,106 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>npm on 的啊达</title>
-        <link>https://petrichor.net.cn/tags/npm/</link>
-        <description>Recent content in npm on 的啊达</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <lastBuildDate>Thu, 31 Mar 2022 11:21:59 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/npm/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>npm 与 yarn 更改默认目录并换源</title>
-        <link>https://petrichor.net.cn/p/node-config/</link>
-        <pubDate>Thu, 31 Mar 2022 11:21:59 +0800</pubDate>
-        
-        <guid>https://petrichor.net.cn/p/node-config/</guid>
-        <description>&lt;p&gt;npm 与 yarn 配置。&lt;/p&gt;
-&lt;h2 id=&#34;更改默认目录&#34;&gt;更改默认目录&lt;/h2&gt;
-&lt;p&gt;npm 缓存默认在 C 盘，这会占用 C 盘大量空间，咱们把它改为其他目录。&lt;/p&gt;
-&lt;h3 id=&#34;删除缓存&#34;&gt;删除缓存&lt;/h3&gt;
-&lt;p&gt;在修改之前，先把之前的缓存删除。当然也可以找到对应的文件夹&lt;strong&gt;手动删除&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;npm 缓存默认使用 &lt;code&gt;~\AppData\Local\npm-cache\_cacache&lt;/code&gt; 目录。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm cache verify
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;Cache verified and compressed (~\AppData\Local\npm-cache_cacache)
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>npm on 的啊达</title><link>https://petrichor.net.cn/tags/npm/</link><description>Recent content in npm on 的啊达</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 31 Mar 2022 11:21:59 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/npm/index.xml" rel="self" type="application/rss+xml"/><item><title>npm 与 yarn 更改默认目录并换源</title><link>https://petrichor.net.cn/p/node-config/</link><pubDate>Thu, 31 Mar 2022 11:21:59 +0800</pubDate><guid>https://petrichor.net.cn/p/node-config/</guid><description>&lt;p>npm 与 yarn 配置。&lt;/p>
+&lt;h2 id="更改默认目录">更改默认目录&lt;/h2>
+&lt;p>npm 缓存默认在 C 盘，这会占用 C 盘大量空间，咱们把它改为其他目录。&lt;/p>
+&lt;h3 id="删除缓存">删除缓存&lt;/h3>
+&lt;p>在修改之前，先把之前的缓存删除。当然也可以找到对应的文件夹&lt;strong>手动删除&lt;/strong>。&lt;/p>
+&lt;p>npm 缓存默认使用 &lt;code>~\AppData\Local\npm-cache\_cacache&lt;/code> 目录。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">npm cache verify
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>Cache verified and compressed (~\AppData\Local\npm-cache_cacache)
 Content verified: 123 (6009783 bytes)
 Index entries: 123
-Finished in 1.58s&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;使用以下命令清空缓存。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm cache clean --force
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;可以看到，缓存目录已经发生了变化，&lt;code&gt;_cacache&lt;/code&gt; 目录已经没了。它会报一个警告，可以不用管。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;npm WARN using &amp;ndash;force Recommended protections disabled.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;全局配置&#34;&gt;全局配置&lt;/h3&gt;
-&lt;p&gt;我这里 Node.js 安装路径是 &lt;code&gt;D:\Software\nodejs&lt;/code&gt; 。&lt;/p&gt;
-&lt;h4 id=&#34;设置-npmyarn-包全局下载路径&#34;&gt;设置 npm、yarn 包全局下载路径&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; prefix &lt;span class=&#34;s2&#34;&gt;&amp;#34;D:\Software\nodejs\node_global&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yarn config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; prefix &lt;span class=&#34;s2&#34;&gt;&amp;#34;D:\Software\Yarn\global&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;设置-npmyarn-缓存路径&#34;&gt;设置 npm、yarn 缓存路径&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; cache &lt;span class=&#34;s2&#34;&gt;&amp;#34;D:\Software\nodejs\node_cache&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yarn config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; cache-folder &lt;span class=&#34;s2&#34;&gt;&amp;#34;D:\Software\Yarn\cache&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;下载一下试一试，&lt;code&gt; npm install hexo-cli -g&lt;/code&gt; ，发现报错。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;npm ERR! code EPERM
+Finished in 1.58s&lt;/p>
+&lt;/blockquote>
+&lt;p>使用以下命令清空缓存。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">npm cache clean --force
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到，缓存目录已经发生了变化，&lt;code>_cacache&lt;/code> 目录已经没了。它会报一个警告，可以不用管。&lt;/p>
+&lt;blockquote>
+&lt;p>npm WARN using &amp;ndash;force Recommended protections disabled.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="全局配置">全局配置&lt;/h3>
+&lt;p>我这里 Node.js 安装路径是 &lt;code>D:\Software\nodejs&lt;/code> 。&lt;/p>
+&lt;h4 id="设置-npmyarn-包全局下载路径">设置 npm、yarn 包全局下载路径&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">npm config &lt;span class="nb">set&lt;/span> prefix &lt;span class="s2">&amp;#34;D:\Software\nodejs\node_global&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">yarn config &lt;span class="nb">set&lt;/span> prefix &lt;span class="s2">&amp;#34;D:\Software\Yarn\global&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="设置-npmyarn-缓存路径">设置 npm、yarn 缓存路径&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">npm config &lt;span class="nb">set&lt;/span> cache &lt;span class="s2">&amp;#34;D:\Software\nodejs\node_cache&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">yarn config &lt;span class="nb">set&lt;/span> cache-folder &lt;span class="s2">&amp;#34;D:\Software\Yarn\cache&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>下载一下试一试，&lt;code> npm install hexo-cli -g&lt;/code> ，发现报错。&lt;/p>
+&lt;blockquote>
+&lt;p>npm ERR! code EPERM
 npm ERR! syscall mkdir
 npm ERR! path D:\Software\nodejs\node_cache_cacache
 npm ERR! errno EPERM
-npm ERR! FetchError: Invalid response body while trying to fetch &lt;a class=&#34;link&#34; href=&#34;https://registry.npmjs.org/hexo-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://registry.npmjs.org/hexo-cli&lt;/a&gt;: EPERM: operation not permitted, mkdir &amp;lsquo;D:\Software\nodejs\node_cache_cacache&amp;rsquo;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;权限问题，把以上两个文件夹设置为可以修改与写入即可。&lt;/p&gt;
-&lt;h3 id=&#34;修改环境变量&#34;&gt;修改环境变量&lt;/h3&gt;
-&lt;p&gt;最后记得把 npm 的环境变量改一下，改成 &lt;code&gt;node_global&lt;/code&gt; 这个路径。&lt;/p&gt;
-&lt;h2 id=&#34;换源&#34;&gt;换源&lt;/h2&gt;
-&lt;p&gt;改为淘宝源。&lt;/p&gt;
-&lt;h3 id=&#34;npm-换源&#34;&gt;npm 换源&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; registry https://registry.npm.taobao.org
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;yarn-换源&#34;&gt;yarn 换源&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yarn config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; registry https://registry.npm.taobao.org/
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/hellomrr/p/13237653.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.cnblogs.com/hellomrr/p/13237653.html&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
-        </item>
-        
-    </channel>
-</rss>
+npm ERR! FetchError: Invalid response body while trying to fetch &lt;a class="link" href="https://registry.npmjs.org/hexo-cli" target="_blank" rel="noopener"
+>https://registry.npmjs.org/hexo-cli&lt;/a>: EPERM: operation not permitted, mkdir &amp;lsquo;D:\Software\nodejs\node_cache_cacache&amp;rsquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>权限问题，把以上两个文件夹设置为可以修改与写入即可。&lt;/p>
+&lt;h3 id="修改环境变量">修改环境变量&lt;/h3>
+&lt;p>最后记得把 npm 的环境变量改一下，改成 &lt;code>node_global&lt;/code> 这个路径。&lt;/p>
+&lt;h2 id="换源">换源&lt;/h2>
+&lt;p>改为淘宝源。&lt;/p>
+&lt;h3 id="npm-换源">npm 换源&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">npm config &lt;span class="nb">set&lt;/span> registry https://registry.npm.taobao.org
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="yarn-换源">yarn 换源&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">yarn config &lt;span class="nb">set&lt;/span> registry https://registry.npm.taobao.org/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="reference">Reference&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://www.cnblogs.com/hellomrr/p/13237653.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/hellomrr/p/13237653.html&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>

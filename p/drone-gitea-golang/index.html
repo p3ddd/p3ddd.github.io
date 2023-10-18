@@ -1,993 +1,285 @@
-<!DOCTYPE html>
-<html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本文将记录如何使用 Drone 自动部署 Go 应用。
-'>
-<title>使用 Drone CI 自动部署 Go 应用</title>
-
-<link rel='canonical' href='https://petrichor.net.cn/p/drone-gitea-golang/'>
-
-<link rel="stylesheet" href="/scss/style.min.76274d13e4a672e562b6f1f60b2aaad6fa1292c307ce28e0aa2e3e3d6d9d2618.css"><meta property='og:title' content='使用 Drone CI 自动部署 Go 应用'>
-<meta property='og:description' content='本文将记录如何使用 Drone 自动部署 Go 应用。
-'>
-<meta property='og:url' content='https://petrichor.net.cn/p/drone-gitea-golang/'>
-<meta property='og:site_name' content='的啊达'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DevOps' /><meta property='article:tag' content='CI/CD' /><meta property='article:tag' content='Drone CI' /><meta property='article:tag' content='Gitea' /><meta property='article:tag' content='Go' /><meta property='article:published_time' content='2022-04-08T15:16:18&#43;08:00'/><meta property='article:modified_time' content='2022-04-08T15:16:18&#43;08:00'/>
-<meta name="twitter:title" content="使用 Drone CI 自动部署 Go 应用">
-<meta name="twitter:description" content="本文将记录如何使用 Drone 自动部署 Go 应用。
-">
-    <link rel="shortcut icon" href="/dwd.svg" />
-
-    </head>
-    <body class="
-    article-page
-    ">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/avatar_hu9462b85ad07859eff2cf1bad472a7853_60669_300x0_resize_box_3.png" width="300"
-                            height="300" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-                    <span class="emoji">🍥</span>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">的啊达</a></h1>
-            <h2 class="site-description"></h2>
-        </div>
-    </header><ol class="social-menu">
-            
-                <li>
-                    <a 
-                        href='https://github.com/p3ddd'
-                        target="_blank"
-                        title="GitHub"
-                        rel="me"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='mailto:dong.wenda@outlook.com'
-                        target="_blank"
-                        title="Email"
-                        rel="me"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-  <path d="M3 7l9 6l9 -6" />
-</svg>
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-        <li >
-            <a href='/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
-
-
-
-                
-                <span>Home</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
-
-
-
-                
-                <span>Archives</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/tags/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
-  <circle cx="9" cy="9" r="2" />
-</svg>
-
-
-
-                
-                <span>Tags</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/links/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
-
-
-
-                
-                <span>Links</span>
-            </a>
-        </li>
-        
-
-        <div class="menu-bottom-section">
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
-
-
-
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
-
-
-
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
-    </ol>
-</aside>
-
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#介绍">介绍</a>
-      <ol>
-        <li><a href="#drone-ci">Drone CI</a></li>
-        <li><a href="#gitea">Gitea</a></li>
-        <li><a href="#自动部署流程">自动部署流程</a></li>
-      </ol>
-    </li>
-    <li><a href="#安装">安装</a>
-      <ol>
-        <li><a href="#安装-drone-server-和-drone-runner-docker">安装 drone-server 和 drone-runner-docker</a></li>
-        <li><a href="#安装-drone-runner-exec">安装 drone-runner-exec</a>
-          <ol>
-            <li><a href="#下载">下载</a></li>
-            <li><a href="#配置">配置</a></li>
-            <li><a href="#启动">启动</a></li>
-          </ol>
-        </li>
-      </ol>
-    </li>
-    <li><a href="#项目配置文件-droneyml">项目配置文件 .drone.yml</a>
-      <ol>
-        <li><a href="#在宿主机执行命令编译并运行">在宿主机执行命令，编译并运行</a></li>
-        <li><a href="#在-docker-中运行">在 Docker 中运行</a></li>
-      </ol>
-    </li>
-    <li><a href="#注意">注意</a>
-      <ol>
-        <li><a href="#pending">Pending</a></li>
-        <li><a href="#fatal-could-not-read-username-for-httpipport-terminal-prompts-disabled">fatal: could not read Username for <code>'http://ip:port'</code>: terminal prompts disabled</a></li>
-        <li><a href="#command-not-found">command not found</a></li>
-        <li><a href="#no-such-process">No such process</a></li>
-        <li><a href="#某一阶段run一直显示-running-不停止">某一阶段(run)一直显示 Running 不停止</a></li>
-      </ol>
-    </li>
-    <li><a href="#reference">Reference</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
-            <main class="main full-width">
-    <article class="main-article">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/p/drone-gitea-golang/">使用 Drone CI 自动部署 Go 应用</a>
-        </h2>
-
-        
-
-        
-    </div>
-
-    
-    
-    
-    
-    
-    <footer class="article-time">
-        
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-            <time class="article-time--published">Apr 08, 2022</time>
-        </div>
-        
-
-        
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-            <time class="article-time--reading">
-                阅读时长: 4 分钟
-            </time>
-        </div>
-        
-
-        
-
-        
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
-  <circle cx="9" cy="9" r="2" />
-</svg>
-
-
-
-            
-            <a href="/tags/devops/" >
-                #DevOps
-            </a>
-            
-            <a href="/tags/ci/cd/" >
-                #CI/CD
-            </a>
-            
-            <a href="/tags/drone-ci/" >
-                #Drone CI
-            </a>
-            
-            <a href="/tags/gitea/" >
-                #Gitea
-            </a>
-            
-            <a href="/tags/go/" >
-                #Go
-            </a>
-            
-        </div>
-        
-    </footer>
-    
-
-    
-</div>
-</header>
-
-    <section class="article-content">
-    
-    
-    <p>本文将记录如何使用 Drone 自动部署 Go 应用。</p>
-<h2 id="介绍">介绍</h2>
-<h3 id="drone-ci">Drone CI</h3>
-<p>官网介绍：</p>
-<blockquote>
-<p>Automate Software Build and Testing</p>
-<p>Drone is a <strong>self-service Continuous Delivery platform</strong> for busy development teams.</p>
-</blockquote>
-<h3 id="gitea">Gitea</h3>
-<p>官网介绍：</p>
-<blockquote>
-<p>Gitea 是一个自己托管的Git服务程序。他和GitHub, Bitbucket or Gitlab等比较类似。他是从 Gogs 发展而来，不过我们已经Fork并且命名为Gitea。</p>
-<p>Gitea的首要目标是创建一个极易安装，运行非常快速，安装和使用体验良好的自建 Git 服务。我们采用Go作为后端语言，这使我们只要生成一个可执行程序即可。并且他还支持跨平台，支持 Linux, macOS 和 Windows 以及各种架构，除了x86，amd64，还包括 ARM 和 PowerPC。</p>
-</blockquote>
-<h3 id="自动部署流程">自动部署流程</h3>
-<ol>
-<li>项目中写入 .drone.yml 配置文件，push 到 gitea 中</li>
-<li>gitea 通过钩子函数告诉 drone</li>
-<li>drone 读取配置文件，通过 drone-runner-* 部署项目</li>
-</ol>
-<h2 id="安装">安装</h2>
-<h3 id="安装-drone-server-和-drone-runner-docker">安装 drone-server 和 drone-runner-docker</h3>
-<p>这里使用 <code>docker-compose</code> 安装。</p>
-<p>在 <code>docker-compose</code> 所在目录使用 <code>docker-compose up -d</code> 安装。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 容器名称</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">drone-server</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 构建所使用的镜像</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">drone/drone:1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 映射容器内80端口到宿主机的7079端口</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">7079</span><span class="p">:</span><span class="m">80</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 映射容器内/data目录到宿主机的/data/drone目录</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/drone:/data</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 容器随docker自动启动</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Gitea 服务器地址</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_GITEA_SERVER=http://ip:port</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Gitea OAuth2客户端ID</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_GITEA_CLIENT_ID=XXX</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Gitea OAuth2客户端密钥</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_GITEA_CLIENT_SECRET=yyy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c">#- DRONE_GIT_ALWAYS_AUTH=</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># drone的共享密钥</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_RPC_SECRET=drone_rpc_secret</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># drone的主机名</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_SERVER_HOST=ip:port</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 外部协议方案</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_SERVER_PROTO=http</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 创建管理员账户，这里对应为gitea的用户名</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_USER_CREATE=username:admin,admin:true</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">drone-runner-docker</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">drone/drone-runner-docker:1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">7080</span><span class="p">:</span><span class="m">3000</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">drone-server</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/var/run/docker.sock:/var/run/docker.sock</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 用于连接到Drone服务器的协议。该值必须是http或https。</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_RPC_PROTO=http</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 用于连接到Drone服务器的主机名</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_RPC_HOST=ip:port</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Drone服务器进行身份验证的共享密钥，和上面设置一样</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_RPC_SECRET=drone_rpc_secret</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 限制运行程序可以执行的并发管道数。运行程序默认情况下执行2个并发管道。</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_RUNNER_CAPACITY=2</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># docker runner 名称</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DRONE_RUNNER_NAME=drone-runner</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="安装-drone-runner-exec">安装 drone-runner-exec</h3>
-<h4 id="下载">下载</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -L https://github.com/drone-runners/drone-runner-exec/releases/latest/download/drone_runner_exec_linux_amd64.tar.gz <span class="p">|</span> tar zx
-</span></span><span class="line"><span class="cl">sudo install -t /usr/local/bin drone-runner-exec
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="配置">配置</h4>
-<p>配置文件为 <code>/etc/drone-runner-exec/config</code> ，需要手动创建并写入一下内容。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1"># 用于连接到Drone服务器的协议。该值必须是http或https</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_RPC_PROTO</span><span class="o">=</span><span class="s">http</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 用于连接到Drone服务器的主机名</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_RPC_HOST</span><span class="o">=</span><span class="s">ip:port</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># Drone服务器进行身份验证的共享密钥，和上面设置一样</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_RPC_SECRET</span><span class="o">=</span><span class="s">drone_rpc_secret</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># log 存储目录，需要自行建立</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_LOG_FILE</span><span class="o">=</span><span class="s">/opt/drone/drone-runner-exec/log.txt</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 限制运行程序可以执行的并发管道数。运行程序默认情况下执行2个并发管道</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># limits the number of concurrent pipelines that a runner can execute</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_RUNNER_CAPACITY</span><span class="o">=</span><span class="s">2</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_RUNNER_NAME</span><span class="o">=</span><span class="s">drone-runner-exec</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_RUNNER_PATH</span><span class="o">=</span><span class="s">/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin # sets the PATH variable for all pipeline steps</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 日志追踪</span>
-</span></span><span class="line"><span class="cl"><span class="na">DRONE_TRACE</span><span class="o">=</span><span class="s">true</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="启动">启动</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">drone-runner-exec service install
-</span></span><span class="line"><span class="cl">drone-runner-exec service start
-</span></span><span class="line"><span class="cl">tail /opt/drone/drone-runner-exec/log.txt
-</span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p><strong>➜</strong>  <strong>drone-runner-exec</strong> drone-runner-exec service install</p>
-<p>read configuration /home/ubuntu/.drone-runner-exec/config</p>
-<p>installing service drone-runner-exec</p>
-<p>drone-runner-exec: error: cannot read configuration, try &ndash;help</p>
-<p>&hellip;</p>
-</blockquote>
-<h2 id="项目配置文件-droneyml">项目配置文件 .drone.yml</h2>
-<h3 id="在宿主机执行命令编译并运行">在宿主机执行命令，编译并运行</h3>
-<p>如果项目根目录中有 <code>.drone.yml</code> 文件，drone 就可以读取文件中的内容，从而进行自动部署。</p>
-<p>示例：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">pipeline</span><span class="w"> </span><span class="c"># 对象类型，有 pipeline、secret 和 signature 等类型</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">exec</span><span class="w"> </span><span class="c"># 流水线类型，有 docker、kubernetes、exec、ssh 等类型</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">drone-golang-example</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">platform</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">os</span><span class="p">:</span><span class="w"> </span><span class="l">linux</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">arch</span><span class="p">:</span><span class="w"> </span><span class="l">amd64</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">steps</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test &amp; build</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">GOOS</span><span class="p">:</span><span class="w"> </span><span class="l">linux</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">GOARCH</span><span class="p">:</span><span class="w"> </span><span class="l">amd64</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">CGO_ENABLED</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">commands</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">whoami</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">echo &#34;==== test ====&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">go test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">echo &#34;==== build ====&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">go build -o server</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">copy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">commands</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">cp -rf ./server /opt/drone-golang-example/server</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">chown ubuntu:ubuntu /opt/drone-golang-example/server</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">chmod 755 /opt/drone-golang-example/server</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">stop</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">commands</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">sh scripts/stop.sh</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">run</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">commands</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">echo &#34;==== run ====&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">cd /opt/drone-golang-example</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">nohup ./server 2&gt;&amp;1 &gt; web.log &amp;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">echo &#34;running&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">notify</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">commands</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">echo &#34;failure&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">status</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">failure</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">trigger</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">branch</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">main</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">event</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">push</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>其中 <code>stop.sh</code> 内容为：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#! /bin/sh
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1"># NR==1 第一行</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># print $2 输出第二个参数</span>
-</span></span><span class="line"><span class="cl"><span class="nv">id</span><span class="o">=</span><span class="k">$(</span>sudo lsof -i:7007<span class="p">|</span>grep drone-golang-example<span class="p">|</span>awk <span class="s1">&#39;NR==1{print $2}&#39;</span><span class="k">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> ! <span class="si">${</span><span class="nv">id</span><span class="si">}</span> <span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="k">then</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;项目未启动&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="k">else</span>
-</span></span><span class="line"><span class="cl">    sudo <span class="nb">kill</span> -9 <span class="nv">$id</span>
-</span></span><span class="line"><span class="cl"><span class="k">fi</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="在-docker-中运行">在 Docker 中运行</h3>
-<p>TODO</p>
-<h2 id="注意">注意</h2>
-<h3 id="pending">Pending</h3>
-<p>没有对应的 runner，需要哪个就安装哪个，对应 <code>.drone.yml</code> 中的 type，本文需要安装 <a class="link" href="#drone-runner-exec" >⬆️drone-runner-exec</a> 。</p>
-<h3 id="fatal-could-not-read-username-for-httpipport-terminal-prompts-disabled">fatal: could not read Username for <code>'http://ip:port'</code>: terminal prompts disabled</h3>
-<p>需要用户名等，这里发现仓库设置为了私有，改为公开，不再报此错误。</p>
-<p>若需要使用私有仓库，参考一下<a class="link" href="https://www.codenong.com/cs106797930/"  target="_blank" rel="noopener"
-    >这篇文章</a>。</p>
-<h3 id="command-not-found">command not found</h3>
-<p>如：</p>
-<ul>
-<li>go: command not found</li>
-<li>scripts/stop.sh: line 3: grep: command not found</li>
-</ul>
-<p>在配置文件中修改配置项 <code>DRONE_RUNNER_PATH</code> ，需要的命令在哪个路径就加什么。</p>
-<p>或者也可以将 <code>.drone.yml</code> 中的 go 改为绝对路径，比如我这里是 <code>/usr/local/go/bin/go</code> (不推荐)。</p>
-<h3 id="no-such-process">No such process</h3>
-<ul>
-<li>
-<p>旧：脚本使用 ps 查找进程</p>
-<p>第一次运行时，并没有已经运行的进程去停止，可以先把 <code>.drone.yml</code> 中 stop 这一步去掉。</p>
-</li>
-<li>
-<p>新：脚本使用 lsof 查找进程</p>
-<p>未启动会输出项目未启动。</p>
-</li>
-</ul>
-<h3 id="某一阶段run一直显示-running-不停止">某一阶段(run)一直显示 Running 不停止</h3>
-<p>。。。</p>
-<h2 id="reference">Reference</h2>
-<ul>
-<li><a class="link" href="https://fix.moe/post/start-drone-ci"  target="_blank" rel="noopener"
-    >https://fix.moe/post/start-drone-ci</a></li>
-<li><a class="link" href="https://docs.drone.io"  target="_blank" rel="noopener"
-    >https://docs.drone.io</a></li>
-</ul>
-</section>
-
-
-    <footer class="article-footer">
-    
-    <section class="article-tags">
-        
-            <a href="/tags/devops/">DevOps</a>
-        
-            <a href="/tags/ci/cd/">CI/CD</a>
-        
-            <a href="/tags/drone-ci/">Drone CI</a>
-        
-            <a href="/tags/gitea/">Gitea</a>
-        
-            <a href="/tags/go/">Go</a>
-        
-    </section>
-
-
-    
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
-</svg>
-
-
-
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    </footer>
-
-
-    
-</article>
-
-    
-
-    
-
-     
-    
-        
-    <script src="//cdn.jsdelivr.net/npm/twikoo@1.6.20/dist/twikoo.all.min.js"></script>
-<div id="tcomment"></div>
-<style>
-    .twikoo {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-    :root[data-scheme="dark"] {
-        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
-        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
-    }
-    .twikoo .el-input-group__prepend,
-    .twikoo .tk-action-icon,
-    .twikoo .tk-time,
-    .twikoo .tk-comments-count {
-        color: var(--twikoo-body-text-color);
-    }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-preview-container,
-    .twikoo .tk-content,
-    .twikoo .tk-nick,
-    .twikoo .tk-send {
-        color: var(--twikoo-body-text-color-main);
-    }
-    .twikoo .el-button{
-        color: var(--twikoo-body-text-color)!important;
-    }
-    .OwO .OwO-body {
-        background-color: var(--body-background) !important;
-        color: var(--body-text-color) !important;
-    }
-</style><script>
-    twikoo.init({
-        envId: 'https:\/\/comment.petrichor.net.cn',
-        el: '#tcomment',})
-</script>
-
-    
-
-    <footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-            2020 - 
-        
-        2023 的啊达
-    </section>
-    
-    <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.20.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
-    </section>
-</footer>
-
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
-
-            </main>
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
-
-        document.head.appendChild(customFont);
-    }());
-</script>
-
-    </body>
-</html>
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="本文将记录如何使用 Drone 自动部署 Go 应用。
+"><title>使用 Drone CI 自动部署 Go 应用</title><link rel=canonical href=https://petrichor.net.cn/p/drone-gitea-golang/><link rel=stylesheet href=/scss/style.min.76274d13e4a672e562b6f1f60b2aaad6fa1292c307ce28e0aa2e3e3d6d9d2618.css><meta property="og:title" content="使用 Drone CI 自动部署 Go 应用"><meta property="og:description" content="本文将记录如何使用 Drone 自动部署 Go 应用。
+"><meta property="og:url" content="https://petrichor.net.cn/p/drone-gitea-golang/"><meta property="og:site_name" content="的啊达"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="DevOps"><meta property="article:tag" content="CI/CD"><meta property="article:tag" content="Drone CI"><meta property="article:tag" content="Gitea"><meta property="article:tag" content="Go"><meta property="article:published_time" content="2022-04-08T15:16:18+08:00"><meta property="article:modified_time" content="2022-04-08T15:16:18+08:00"><meta name=twitter:title content="使用 Drone CI 自动部署 Go 应用"><meta name=twitter:description content="本文将记录如何使用 Drone 自动部署 Go 应用。
+"><link rel="shortcut icon" href=/dwd.svg></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu9462b85ad07859eff2cf1bad472a7853_60669_300x0_resize_box_3.png width=300 height=300 class=site-logo loading=lazy alt=Avatar></a>
+<span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>的啊达</a></h1><h2 class=site-description></h2></div></header><ol class=social-menu><li><a href=https://github.com/p3ddd target=_blank title=GitHub rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=mailto:dong.wenda@outlook.com target=_blank title=Email rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 6 9-6"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg><span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg><span>Archives</span></a></li><li><a href=/tags/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg><span>Tags</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg><span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg><span>Links</span></a></li><div class=menu-bottom-section><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><span>暗色模式</span></li></div></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#介绍>介绍</a><ol><li><a href=#drone-ci>Drone CI</a></li><li><a href=#gitea>Gitea</a></li><li><a href=#自动部署流程>自动部署流程</a></li></ol></li><li><a href=#安装>安装</a><ol><li><a href=#安装-drone-server-和-drone-runner-docker>安装 drone-server 和 drone-runner-docker</a></li><li><a href=#安装-drone-runner-exec>安装 drone-runner-exec</a><ol><li><a href=#下载>下载</a></li><li><a href=#配置>配置</a></li><li><a href=#启动>启动</a></li></ol></li></ol></li><li><a href=#项目配置文件-droneyml>项目配置文件 .drone.yml</a><ol><li><a href=#在宿主机执行命令编译并运行>在宿主机执行命令，编译并运行</a></li><li><a href=#在-docker-中运行>在 Docker 中运行</a></li></ol></li><li><a href=#注意>注意</a><ol><li><a href=#pending>Pending</a></li><li><a href=#fatal-could-not-read-username-for-httpipport-terminal-prompts-disabled>fatal: could not read Username for <code>'http://ip:port'</code>: terminal prompts disabled</a></li><li><a href=#command-not-found>command not found</a></li><li><a href=#no-such-process>No such process</a></li><li><a href=#某一阶段run一直显示-running-不停止>某一阶段(run)一直显示 Running 不停止</a></li></ol></li><li><a href=#reference>Reference</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/drone-gitea-golang/>使用 Drone CI 自动部署 Go 应用</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Apr 08, 2022</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 4 分钟</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg><a href=/tags/devops/>#DevOps</a>
+<a href=/tags/ci/cd/>#CI/CD</a>
+<a href=/tags/drone-ci/>#Drone CI</a>
+<a href=/tags/gitea/>#Gitea</a>
+<a href=/tags/go/>#Go</a></div></footer></div></header><section class=article-content><p>本文将记录如何使用 Drone 自动部署 Go 应用。</p><h2 id=介绍>介绍</h2><h3 id=drone-ci>Drone CI</h3><p>官网介绍：</p><blockquote><p>Automate Software Build and Testing</p><p>Drone is a <strong>self-service Continuous Delivery platform</strong> for busy development teams.</p></blockquote><h3 id=gitea>Gitea</h3><p>官网介绍：</p><blockquote><p>Gitea 是一个自己托管的Git服务程序。他和GitHub, Bitbucket or Gitlab等比较类似。他是从 Gogs 发展而来，不过我们已经Fork并且命名为Gitea。</p><p>Gitea的首要目标是创建一个极易安装，运行非常快速，安装和使用体验良好的自建 Git 服务。我们采用Go作为后端语言，这使我们只要生成一个可执行程序即可。并且他还支持跨平台，支持 Linux, macOS 和 Windows 以及各种架构，除了x86，amd64，还包括 ARM 和 PowerPC。</p></blockquote><h3 id=自动部署流程>自动部署流程</h3><ol><li>项目中写入 .drone.yml 配置文件，push 到 gitea 中</li><li>gitea 通过钩子函数告诉 drone</li><li>drone 读取配置文件，通过 drone-runner-* 部署项目</li></ol><h2 id=安装>安装</h2><h3 id=安装-drone-server-和-drone-runner-docker>安装 drone-server 和 drone-runner-docker</h3><p>这里使用 <code>docker-compose</code> 安装。</p><p>在 <code>docker-compose</code> 所在目录使用 <code>docker-compose up -d</code> 安装。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;3&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>services</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># 容器名称</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>drone-server</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># 构建所使用的镜像</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>drone/drone:1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># 映射容器内80端口到宿主机的7079端口</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>7079</span><span class=p>:</span><span class=m>80</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># 映射容器内/data目录到宿主机的/data/drone目录</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>/data/drone:/data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># 容器随docker自动启动</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>restart</span><span class=p>:</span><span class=w> </span><span class=l>always</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># Gitea 服务器地址</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_GITEA_SERVER=http://ip:port</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># Gitea OAuth2客户端ID</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_GITEA_CLIENT_ID=XXX</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># Gitea OAuth2客户端密钥</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_GITEA_CLIENT_SECRET=yyy</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c>#- DRONE_GIT_ALWAYS_AUTH=</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># drone的共享密钥</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_RPC_SECRET=drone_rpc_secret</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># drone的主机名</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_SERVER_HOST=ip:port</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 外部协议方案</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_SERVER_PROTO=http</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 创建管理员账户，这里对应为gitea的用户名</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_USER_CREATE=username:admin,admin:true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>drone-runner-docker</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>drone/drone-runner-docker:1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>7080</span><span class=p>:</span><span class=m>3000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>restart</span><span class=p>:</span><span class=w> </span><span class=l>always</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>depends_on</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>drone-server</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>/var/run/docker.sock:/var/run/docker.sock</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 用于连接到Drone服务器的协议。该值必须是http或https。</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_RPC_PROTO=http</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 用于连接到Drone服务器的主机名</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_RPC_HOST=ip:port</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># Drone服务器进行身份验证的共享密钥，和上面设置一样</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_RPC_SECRET=drone_rpc_secret</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 限制运行程序可以执行的并发管道数。运行程序默认情况下执行2个并发管道。</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_RUNNER_CAPACITY=2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># docker runner 名称</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>DRONE_RUNNER_NAME=drone-runner</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=安装-drone-runner-exec>安装 drone-runner-exec</h3><h4 id=下载>下载</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>curl -L https://github.com/drone-runners/drone-runner-exec/releases/latest/download/drone_runner_exec_linux_amd64.tar.gz <span class=p>|</span> tar zx
+</span></span><span class=line><span class=cl>sudo install -t /usr/local/bin drone-runner-exec
+</span></span></code></pre></td></tr></table></div></div><h4 id=配置>配置</h4><p>配置文件为 <code>/etc/drone-runner-exec/config</code> ，需要手动创建并写入一下内容。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=line><span class=cl><span class=c1># 用于连接到Drone服务器的协议。该值必须是http或https</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_RPC_PROTO</span><span class=o>=</span><span class=s>http</span>
+</span></span><span class=line><span class=cl><span class=c1># 用于连接到Drone服务器的主机名</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_RPC_HOST</span><span class=o>=</span><span class=s>ip:port</span>
+</span></span><span class=line><span class=cl><span class=c1># Drone服务器进行身份验证的共享密钥，和上面设置一样</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_RPC_SECRET</span><span class=o>=</span><span class=s>drone_rpc_secret</span>
+</span></span><span class=line><span class=cl><span class=c1># log 存储目录，需要自行建立</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_LOG_FILE</span><span class=o>=</span><span class=s>/opt/drone/drone-runner-exec/log.txt</span>
+</span></span><span class=line><span class=cl><span class=c1># 限制运行程序可以执行的并发管道数。运行程序默认情况下执行2个并发管道</span>
+</span></span><span class=line><span class=cl><span class=c1># limits the number of concurrent pipelines that a runner can execute</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_RUNNER_CAPACITY</span><span class=o>=</span><span class=s>2</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_RUNNER_NAME</span><span class=o>=</span><span class=s>drone-runner-exec</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_RUNNER_PATH</span><span class=o>=</span><span class=s>/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin # sets the PATH variable for all pipeline steps</span>
+</span></span><span class=line><span class=cl><span class=c1># 日志追踪</span>
+</span></span><span class=line><span class=cl><span class=na>DRONE_TRACE</span><span class=o>=</span><span class=s>true</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=启动>启动</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>drone-runner-exec service install
+</span></span><span class=line><span class=cl>drone-runner-exec service start
+</span></span><span class=line><span class=cl>tail /opt/drone/drone-runner-exec/log.txt
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><strong>➜</strong> <strong>drone-runner-exec</strong> drone-runner-exec service install</p><p>read configuration /home/ubuntu/.drone-runner-exec/config</p><p>installing service drone-runner-exec</p><p>drone-runner-exec: error: cannot read configuration, try &ndash;help</p><p>&mldr;</p></blockquote><h2 id=项目配置文件-droneyml>项目配置文件 .drone.yml</h2><h3 id=在宿主机执行命令编译并运行>在宿主机执行命令，编译并运行</h3><p>如果项目根目录中有 <code>.drone.yml</code> 文件，drone 就可以读取文件中的内容，从而进行自动部署。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>pipeline</span><span class=w> </span><span class=c># 对象类型，有 pipeline、secret 和 signature 等类型</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>exec</span><span class=w> </span><span class=c># 流水线类型，有 docker、kubernetes、exec、ssh 等类型</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>drone-golang-example</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>platform</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>os</span><span class=p>:</span><span class=w> </span><span class=l>linux</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>arch</span><span class=p>:</span><span class=w> </span><span class=l>amd64</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>steps</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>test &amp; build</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>GOOS</span><span class=p>:</span><span class=w> </span><span class=l>linux</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>GOARCH</span><span class=p>:</span><span class=w> </span><span class=l>amd64</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>CGO_ENABLED</span><span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>commands</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>whoami</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>echo &#34;==== test ====&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>go test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>echo &#34;==== build ====&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>go build -o server</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>copy</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>commands</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>cp -rf ./server /opt/drone-golang-example/server</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>chown ubuntu:ubuntu /opt/drone-golang-example/server</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>chmod 755 /opt/drone-golang-example/server</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>stop</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>commands</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>sh scripts/stop.sh</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>run</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>commands</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>echo &#34;==== run ====&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>cd /opt/drone-golang-example</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>nohup ./server 2&gt;&amp;1 &gt; web.log &amp;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>echo &#34;running&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>notify</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>commands</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>echo &#34;failure&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>when</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>status</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=l>failure</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>trigger</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>branch</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>main</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>event</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>push</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>其中 <code>stop.sh</code> 内容为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=cp>#! /bin/sh
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1># NR==1 第一行</span>
+</span></span><span class=line><span class=cl><span class=c1># print $2 输出第二个参数</span>
+</span></span><span class=line><span class=cl><span class=nv>id</span><span class=o>=</span><span class=k>$(</span>sudo lsof -i:7007<span class=p>|</span>grep drone-golang-example<span class=p>|</span>awk <span class=s1>&#39;NR==1{print $2}&#39;</span><span class=k>)</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>[</span> ! <span class=si>${</span><span class=nv>id</span><span class=si>}</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;项目未启动&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    sudo <span class=nb>kill</span> -9 <span class=nv>$id</span>
+</span></span><span class=line><span class=cl><span class=k>fi</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=在-docker-中运行>在 Docker 中运行</h3><p>TODO</p><h2 id=注意>注意</h2><h3 id=pending>Pending</h3><p>没有对应的 runner，需要哪个就安装哪个，对应 <code>.drone.yml</code> 中的 type，本文需要安装 <a class=link href=#drone-runner-exec>⬆️drone-runner-exec</a> 。</p><h3 id=fatal-could-not-read-username-for-httpipport-terminal-prompts-disabled>fatal: could not read Username for <code>'http://ip:port'</code>: terminal prompts disabled</h3><p>需要用户名等，这里发现仓库设置为了私有，改为公开，不再报此错误。</p><p>若需要使用私有仓库，参考一下<a class=link href=https://www.codenong.com/cs106797930/ target=_blank rel=noopener>这篇文章</a>。</p><h3 id=command-not-found>command not found</h3><p>如：</p><ul><li>go: command not found</li><li>scripts/stop.sh: line 3: grep: command not found</li></ul><p>在配置文件中修改配置项 <code>DRONE_RUNNER_PATH</code> ，需要的命令在哪个路径就加什么。</p><p>或者也可以将 <code>.drone.yml</code> 中的 go 改为绝对路径，比如我这里是 <code>/usr/local/go/bin/go</code> (不推荐)。</p><h3 id=no-such-process>No such process</h3><ul><li><p>旧：脚本使用 ps 查找进程</p><p>第一次运行时，并没有已经运行的进程去停止，可以先把 <code>.drone.yml</code> 中 stop 这一步去掉。</p></li><li><p>新：脚本使用 lsof 查找进程</p><p>未启动会输出项目未启动。</p></li></ul><h3 id=某一阶段run一直显示-running-不停止>某一阶段(run)一直显示 Running 不停止</h3><p>。。。</p><h2 id=reference>Reference</h2><ul><li><a class=link href=https://fix.moe/post/start-drone-ci target=_blank rel=noopener>https://fix.moe/post/start-drone-ci</a></li><li><a class=link href=https://docs.drone.io target=_blank rel=noopener>https://docs.drone.io</a></li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/devops/>DevOps</a>
+<a href=/tags/ci/cd/>CI/CD</a>
+<a href=/tags/drone-ci/>Drone CI</a>
+<a href=/tags/gitea/>Gitea</a>
+<a href=/tags/go/>Go</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><script src=//cdn.jsdelivr.net/npm/twikoo@1.6.20/dist/twikoo.all.min.js></script><div id=tcomment></div><style>.twikoo{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}:root[data-scheme=dark]{--twikoo-body-text-color-main:rgba(255, 255, 255, 0.9);--twikoo-body-text-color:rgba(255, 255, 255, 0.7)}.twikoo .el-input-group__prepend,.twikoo .tk-action-icon,.twikoo .tk-time,.twikoo .tk-comments-count{color:var(--twikoo-body-text-color)}.twikoo .el-input__inner,.twikoo .el-textarea__inner,.twikoo .tk-preview-container,.twikoo .tk-content,.twikoo .tk-nick,.twikoo .tk-send{color:var(--twikoo-body-text-color-main)}.twikoo .el-button{color:var(--twikoo-body-text-color)!important}.OwO .OwO-body{background-color:var(--body-background)!important;color:var(--body-text-color)!important}</style><script>twikoo.init({envId:"https://comment.petrichor.net.cn",el:"#tcomment"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2023 的啊达</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.20.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

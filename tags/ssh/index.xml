@@ -1,120 +1,102 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>SSH on 的啊达</title>
-        <link>https://petrichor.net.cn/tags/ssh/</link>
-        <description>Recent content in SSH on 的啊达</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <lastBuildDate>Sun, 01 May 2022 14:44:01 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/ssh/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>SSH 与 Git 多账号配置</title>
-        <link>https://petrichor.net.cn/p/ssh-git-config/</link>
-        <pubDate>Sun, 01 May 2022 14:44:01 +0800</pubDate>
-        
-        <guid>https://petrichor.net.cn/p/ssh-git-config/</guid>
-        <description>&lt;h2 id=&#34;ssh-配置多个账户&#34;&gt;SSH 配置多个账户&lt;/h2&gt;
-&lt;p&gt;当需要使用多个远程主机或 Git 账户时，使用 SSH 配置文件&lt;code&gt;~/.ssh/config&lt;/code&gt; 会很方便。&lt;/p&gt;
-&lt;h3 id=&#34;常用配置项&#34;&gt;常用配置项&lt;/h3&gt;
-&lt;p&gt;可以通过 &lt;code&gt;man ssh_config&lt;/code&gt; 命令来查看此配置文件的具体语法&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Host&lt;/code&gt; 别名&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;HostName&lt;/code&gt; 主机名，IP 或域名&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Port&lt;/code&gt; 端口，默认为 22&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;User&lt;/code&gt; 用户名&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;IdentityFile&lt;/code&gt; 密钥文件的路径，可以指定多个，会依次尝试&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;IdentitiesOnly&lt;/code&gt; 只接受 SSH Key 登录&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PreferredAuthentications&lt;/code&gt; 强制使用 Public Key 验证&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;转义符&#34;&gt;转义符&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;%d&lt;/code&gt; 本地用户目录&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%u&lt;/code&gt; 本地用户名称&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%l&lt;/code&gt; 本地主机名&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%h&lt;/code&gt; 远程主机名&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%r&lt;/code&gt; 远程用户名&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;示例&#34;&gt;示例&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host myserver
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;HostName 12.34.56.78 # 服务器地址
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Port 22 # ssh 端口号
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;User ubuntu # 用户名
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;IdentityFile ~/.ssh/id_rsa
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;IdentitiesOnly yes
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;配置好以后，就可以直接&lt;strong&gt;使用别名登录远程主机&lt;/strong&gt;了：&lt;code&gt;ssh myserver&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;多个主机可以使用同一个密钥，也可以分别使用各自的密钥。若使用相同密钥，还可以通过使用转义符简化配置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host github.com gitee.com
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;HostName %h
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;User git
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;IdentityFile ~/.ssh/id_rsa_git
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;验证：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -T git@github.com
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -T git@gitee.com
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;已经配置好-sshgit-clone-时仍然需要密码&#34;&gt;已经配置好 ssh，git clone 时仍然需要密码&lt;/h2&gt;
-&lt;p&gt;这通常会在我们使用 https 方式克隆时发生，使用 ssh 方式克隆即可，或者是配置一下缓存。默认是不缓存的，每一次连接都会询问你的用户名和密码，我们可以设置保存到硬盘或是内存。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;git-credential-cache - Helper to temporarily store passwords in memory 存储到内存&lt;/p&gt;
-&lt;p&gt;git-credential-store - Helper to store credentials on disk 存储到硬盘&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;临时缓存密码&#34;&gt;临时缓存密码&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git config --global credential.helper cache
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;保存密码&#34;&gt;保存密码&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git config credential.helper store
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://git-scm.com/docs/git-credential-cache&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://git-scm.com/docs/git-credential-cache&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://git-scm.com/docs/git-credential-store&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://git-scm.com/docs/git-credential-store&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://p3terx.com/archives/ssh-configuration-file.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://p3terx.com/archives/ssh-configuration-file.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://p3terx.com/archives/github-multiaccount-ssh-key-settings.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://p3terx.com/archives/github-multiaccount-ssh-key-settings.html&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SSH on 的啊达</title><link>https://petrichor.net.cn/tags/ssh/</link><description>Recent content in SSH on 的啊达</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 01 May 2022 14:44:01 +0800</lastBuildDate><atom:link href="https://petrichor.net.cn/tags/ssh/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH 与 Git 多账号配置</title><link>https://petrichor.net.cn/p/ssh-git-config/</link><pubDate>Sun, 01 May 2022 14:44:01 +0800</pubDate><guid>https://petrichor.net.cn/p/ssh-git-config/</guid><description>&lt;h2 id="ssh-配置多个账户">SSH 配置多个账户&lt;/h2>
+&lt;p>当需要使用多个远程主机或 Git 账户时，使用 SSH 配置文件&lt;code>~/.ssh/config&lt;/code> 会很方便。&lt;/p>
+&lt;h3 id="常用配置项">常用配置项&lt;/h3>
+&lt;p>可以通过 &lt;code>man ssh_config&lt;/code> 命令来查看此配置文件的具体语法&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Host&lt;/code> 别名&lt;/li>
+&lt;li>&lt;code>HostName&lt;/code> 主机名，IP 或域名&lt;/li>
+&lt;li>&lt;code>Port&lt;/code> 端口，默认为 22&lt;/li>
+&lt;li>&lt;code>User&lt;/code> 用户名&lt;/li>
+&lt;li>&lt;code>IdentityFile&lt;/code> 密钥文件的路径，可以指定多个，会依次尝试&lt;/li>
+&lt;li>&lt;code>IdentitiesOnly&lt;/code> 只接受 SSH Key 登录&lt;/li>
+&lt;li>&lt;code>PreferredAuthentications&lt;/code> 强制使用 Public Key 验证&lt;/li>
+&lt;/ul>
+&lt;h3 id="转义符">转义符&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>%d&lt;/code> 本地用户目录&lt;/li>
+&lt;li>&lt;code>%u&lt;/code> 本地用户名称&lt;/li>
+&lt;li>&lt;code>%l&lt;/code> 本地主机名&lt;/li>
+&lt;li>&lt;code>%h&lt;/code> 远程主机名&lt;/li>
+&lt;li>&lt;code>%r&lt;/code> 远程用户名&lt;/li>
+&lt;/ul>
+&lt;h3 id="示例">示例&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Host myserver
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">HostName 12.34.56.78 # 服务器地址
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Port 22 # ssh 端口号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">User ubuntu # 用户名
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">IdentityFile ~/.ssh/id_rsa
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">IdentitiesOnly yes
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>配置好以后，就可以直接&lt;strong>使用别名登录远程主机&lt;/strong>了：&lt;code>ssh myserver&lt;/code> 。&lt;/p>
+&lt;p>多个主机可以使用同一个密钥，也可以分别使用各自的密钥。若使用相同密钥，还可以通过使用转义符简化配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Host github.com gitee.com
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">HostName %h
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">User git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">IdentityFile ~/.ssh/id_rsa_git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>验证：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ssh -T git@github.com
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ssh -T git@gitee.com
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="已经配置好-sshgit-clone-时仍然需要密码">已经配置好 ssh，git clone 时仍然需要密码&lt;/h2>
+&lt;p>这通常会在我们使用 https 方式克隆时发生，使用 ssh 方式克隆即可，或者是配置一下缓存。默认是不缓存的，每一次连接都会询问你的用户名和密码，我们可以设置保存到硬盘或是内存。&lt;/p>
+&lt;blockquote>
+&lt;p>git-credential-cache - Helper to temporarily store passwords in memory 存储到内存&lt;/p>
+&lt;p>git-credential-store - Helper to store credentials on disk 存储到硬盘&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="临时缓存密码">临时缓存密码&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git config --global credential.helper cache
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="保存密码">保存密码&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git config credential.helper store
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="reference">Reference&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://git-scm.com/docs/git-credential-cache" target="_blank" rel="noopener"
+>https://git-scm.com/docs/git-credential-cache&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://git-scm.com/docs/git-credential-store" target="_blank" rel="noopener"
+>https://git-scm.com/docs/git-credential-store&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://p3terx.com/archives/ssh-configuration-file.html" target="_blank" rel="noopener"
+>https://p3terx.com/archives/ssh-configuration-file.html&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://p3terx.com/archives/github-multiaccount-ssh-key-settings.html" target="_blank" rel="noopener"
+>https://p3terx.com/archives/github-multiaccount-ssh-key-settings.html&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>
